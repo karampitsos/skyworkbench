@@ -369,7 +369,7 @@ a.pill:hover { color: var(--text); border-color: var(--accent); }
 .prose h2 { margin-top: 2em; font-size: 1.6rem; }
 .prose h3 { margin-top: 1.7em; font-size: 1.25rem; }
 .prose p, .prose li { color: var(--text); }
-.prose img { display: block; max-width: 100%; height: auto; margin: 1.8em auto; background: #fff; padding: 8px 8px 8px; box-shadow: var(--shadow); border-radius: 2px; }
+.prose img { display: block; max-width: min(100%, 520px); width: auto; max-height: 440px; height: auto; margin: 1.8em auto; background: #fff; padding: 8px 8px 8px; box-shadow: var(--shadow); border-radius: 2px; }
 .prose blockquote { margin: 1.4em 0; padding: 4px 18px; border-left: 3px solid var(--accent); color: var(--muted); font-style: italic; }
 .prose code { font-family: var(--mono); font-size: .84em; background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; }
 .prose pre { background: #2b2118 !important; color: #f6ead6; border-radius: 4px; padding: 14px 16px; overflow-x: auto; font-size: .84rem; line-height: 1.55; }
@@ -458,3 +458,12 @@ a.pill:hover { color: var(--text); border-color: var(--accent); }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; scroll-behavior: auto !important; }
 }
+
+/* Photo captions: an italic line right after an image, written on the print like a handwritten note. */
+.prose p:has(> img) { margin-bottom: .2em; }
+.prose p:has(> img) + p:has(> em:only-child) { text-align: center; margin-top: 0; font-family: var(--hand); font-size: 1.35rem; color: var(--muted); }
+.prose p:has(> img) + p:has(> em:only-child) em { font-style: normal; }
+.prose figure { margin: 1.8em 0; }
+.prose video { display: block; width: 100%; height: auto; background: #000; padding: 8px; box-shadow: var(--shadow); border-radius: 2px; }
+.prose figcaption { text-align: center; font-family: var(--hand); font-size: 1.35rem; color: var(--muted); margin-top: .5em; line-height: 1.25; }
+.prose figure.compact video { max-width: 360px; margin: 0 auto; }
