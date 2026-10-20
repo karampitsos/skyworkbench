@@ -4,6 +4,8 @@ description: "No upgrade kit exists for the Bresser EQ-3, so I motorised both ax
 section: builds
 date: 2026-10-20
 draft: false
+cover: "../../assets/posts/eq3-goto/both-axes.jpg"
+coverAlt: "The EQ-3 mount head with stepper motors and belts fitted to both axes"
 tags: ["Bresser EQ-3", "GoTo", "Stepper motors", "Arduino", "Mount upgrade", "DIY"]
 goal: "Put a stepper motor on each axis of a Bresser EQ-3 mount so it can be computer-controlled, without buying a new mount."
 difficulty: medium
