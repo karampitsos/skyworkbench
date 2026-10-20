@@ -12,7 +12,6 @@ Astro static blog about hands-on astronomy ("doing, not just narrating"): telesc
 - SEO: unique URLs, titles, descriptions, canonical, sitemap, robots.txt, RSS, JSON-LD on posts.
 
 ## Placeholders to replace
-- Contact section in src/pages/about.astro.
 - Camera sensor figures in src/pages/tools/field-of-view.astro are approximate.
 
 ## Next steps discussed
