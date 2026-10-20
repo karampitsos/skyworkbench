@@ -44,7 +44,7 @@ Keep large datasets and images off the repo: host them on Zenodo, object storage
 ## Before you publish
 
 1. Set your real address in `astro.config.mjs` (`site`) and in `public/robots.txt`.
-2. Replace the four sample posts (each starts with a "Sample post" note) and the contact section in `src/pages/about.astro`.
+2. Fill in the contact section in `src/pages/about.astro`.
 3. Sections and tagline live in `src/site.ts`.
 
 ## Deploy
