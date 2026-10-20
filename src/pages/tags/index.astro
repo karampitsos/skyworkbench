@@ -1,0 +1,33 @@
+---
+import { url } from '../../site';
+import Base from '../../layouts/Base.astro';
+import { getPosts, groupByTag } from '../../lib/posts';
+
+const tags = [...groupByTag(await getPosts()).entries()].sort(
+  (a, b) => b[1].posts.length - a[1].posts.length || a[1].label.localeCompare(b[1].label),
+);
+---
+
+<Base title="Tags" description="Browse Bench & Sky posts by topic.">
+  <div class="wrap">
+    <div class="page-title">
+      <div class="eyebrow">Browse</div>
+      <h1>Tags</h1>
+    </div>
+    <section class="section">
+      {
+        tags.length ? (
+          <div class="meta" style="gap:10px">
+            {tags.map(([slug, t]) => (
+              <a class="pill" href={url(`/tags/${slug}/`)}>
+                {t.label} · {t.posts.length}
+              </a>
+            ))}
+          </div>
+        ) : (
+          <p class="empty">No tags yet.</p>
+        )
+      }
+    </section>
+  </div>
+</Base>

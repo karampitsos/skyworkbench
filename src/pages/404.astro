@@ -1,0 +1,14 @@
+---
+import { url } from '../site';
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Not found" noindex>
+  <div class="wrap">
+    <div class="page-title">
+      <div class="eyebrow">404</div>
+      <h1>Lost in space</h1>
+      <p>That page isn't here. <a href={url('/')}>Back to the bench</a> or <a href={url('/search/')}>search</a>.</p>
+    </div>
+  </div>
+</Base>

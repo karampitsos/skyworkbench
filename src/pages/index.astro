@@ -1,0 +1,65 @@
+---
+import Base from '../layouts/Base.astro';
+import PostCard from '../components/PostCard.astro';
+import { SITE, SECTIONS, type SectionKey, url } from '../site';
+import { getPosts } from '../lib/posts';
+
+const posts = await getPosts();
+const latest = posts.slice(0, 6);
+const counts = (k: string) => posts.filter((p) => p.data.section === k).length;
+---
+
+<Base>
+  <div class="wrap">
+    <section class="hero">
+      <div class="eyebrow">Lab notebook · astronomy you can do</div>
+      <h1>{SITE.tagline}</h1>
+      <p class="lead">
+        Telescope builds with real parts lists, pipelines that turn space-telescope data into results,
+        datasets you can download, and experiments with numbers. Less narrating, more doing.
+      </p>
+      <a class="btn primary" href={url('/section/builds/')}>Start with a build →</a>
+      <a class="btn" href={url('/tools/')}>Open the tools</a>
+    </section>
+
+    <section class="section">
+      <h2>What you can do here</h2>
+      <div class="grid cols-4">
+        {
+          (Object.keys(SECTIONS) as SectionKey[]).map((k) => (
+            <a class="card" href={url(`/section/${k}/`)}>
+              <div class="icon">{SECTIONS[k].icon}</div>
+              <h3>{SECTIONS[k].label}</h3>
+              <p>{SECTIONS[k].blurb}</p>
+              <div class="meta" style="margin-top:10px">{counts(k)} {counts(k) === 1 ? 'post' : 'posts'}</div>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Latest</h2>
+      {
+        latest.length ? (
+          <div class="post-list">
+            {latest.map((p) => <PostCard post={p} />)}
+          </div>
+        ) : (
+          <p class="empty">No posts yet.</p>
+        )
+      }
+    </section>
+
+    <section class="section">
+      <h2>Tools</h2>
+      <div class="grid cols-2">
+        <a class="card" href={url('/tools/field-of-view/')}>
+          <div class="icon">◎</div>
+          <h3>Field-of-view calculator</h3>
+          <p>Pick a scope and camera, see image scale, field size and a framing preview.</p>
+        </a>
+      </div>
+    </section>
+  </div>
+</Base>

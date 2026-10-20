@@ -1,0 +1,21 @@
+---
+import { SECTIONS, url } from '../site';
+import { formatDate, type Post } from '../lib/posts';
+
+interface Props {
+  post: Post;
+}
+const { post } = Astro.props;
+const { title, description, section, date, difficulty, time } = post.data;
+---
+
+<a class="card" href={url(`/posts/${post.id}/`)}>
+  <div class="meta">
+    <span class="pill sec">{SECTIONS[section].label}</span>
+    <time datetime={date.toISOString()}>{formatDate(date)}</time>
+    {difficulty && <span>· {difficulty}</span>}
+    {time && <span>· {time}</span>}
+  </div>
+  <h3>{title}</h3>
+  <p>{description}</p>
+</a>

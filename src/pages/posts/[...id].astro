@@ -1,0 +1,80 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { SECTIONS, url } from '../../site';
+import { getPosts, formatDate, slugifyTag } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const d = post.data;
+const hasSpec = d.goal || d.cost || d.time || d.difficulty || d.materials.length;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: d.title,
+  description: d.description,
+  datePublished: d.date.toISOString(),
+  keywords: d.tags.join(', '),
+  mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).toString(),
+};
+---
+
+<Base title={d.title} description={d.description} type="article">
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} slot="head" is:inline />
+  <article class="wrap post" data-pagefind-body>
+    <header>
+      <div class="meta">
+        <a class="pill sec" href={url(`/section/${d.section}/`)}>{SECTIONS[d.section].label}</a>
+        <time datetime={d.date.toISOString()}>{formatDate(d.date)}</time>
+      </div>
+      <h1>{d.title}</h1>
+      <p class="desc">{d.description}</p>
+    </header>
+
+    {
+      hasSpec && (
+        <aside class="spec" aria-label="Project summary">
+          <dl>
+            {d.goal && (<><dt>Goal</dt><dd>{d.goal}</dd></>)}
+            {d.difficulty && (<><dt>Difficulty</dt><dd>{d.difficulty}</dd></>)}
+            {d.time && (<><dt>Time</dt><dd>{d.time}</dd></>)}
+            {d.cost && (<><dt>Cost</dt><dd>{d.cost}</dd></>)}
+            {d.materials.length > 0 && (
+              <>
+                <dt>Materials</dt>
+                <dd><ul>{d.materials.map((m) => <li>{m}</li>)}</ul></dd>
+              </>
+            )}
+          </dl>
+        </aside>
+      )
+    }
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    {
+      d.files.length > 0 && (
+        <section class="downloads">
+          <h2>Files</h2>
+          {d.files.map((f) => <a href={f.href}>{f.label}</a>)}
+        </section>
+      )
+    }
+
+    {
+      d.tags.length > 0 && (
+        <div class="meta" style="margin-top:28px">
+          {d.tags.map((t) => <a class="pill" href={url(`/tags/${slugifyTag(t)}/`)}>#{t}</a>)}
+        </div>
+      )
+    }
+  </article>
+</Base>

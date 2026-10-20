@@ -1,0 +1,31 @@
+---
+import { url } from '../../site';
+import Base from '../../layouts/Base.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getPosts, groupByTag } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const groups = groupByTag(await getPosts());
+  return [...groups.entries()].map(([slug, t]) => ({
+    params: { tag: slug },
+    props: { label: t.label, posts: t.posts },
+  }));
+}
+
+const { label, posts } = Astro.props;
+---
+
+<Base title={`Tag: ${label}`} description={`Posts tagged ${label} on Bench & Sky.`}>
+  <div class="wrap">
+    <div class="page-title">
+      <div class="eyebrow">Tag</div>
+      <h1>{label}</h1>
+      <p>{posts.length} {posts.length === 1 ? 'post' : 'posts'} · <a href={url('/tags/')}>all tags</a></p>
+    </div>
+    <section class="section">
+      <div class="post-list">
+        {posts.map((p) => <PostCard post={p} />)}
+      </div>
+    </section>
+  </div>
+</Base>

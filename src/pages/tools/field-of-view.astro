@@ -1,0 +1,193 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+
+<Base
+  title="Field-of-view calculator"
+  description="Compute image scale, field of view and framing for any telescope and camera combination."
+>
+  <div class="wrap">
+    <div class="page-title">
+      <div class="eyebrow">Tool</div>
+      <h1>Field-of-view calculator</h1>
+      <p>Pick a telescope and camera (or type your own numbers) to see image scale, field size and how a target frames.</p>
+    </div>
+
+    <section class="section">
+      <div class="tool" id="fov-tool">
+        <div class="row">
+          <div>
+            <label for="scope">Telescope preset</label>
+            <select id="scope"></select>
+          </div>
+          <div>
+            <label for="fl">Focal length (mm)</label>
+            <input id="fl" type="number" min="1" step="1" value="420" />
+          </div>
+          <div>
+            <label for="red">Reducer / barlow (×)</label>
+            <input id="red" type="number" min="0.1" step="0.01" value="1" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="cam">Camera preset</label>
+            <select id="cam"></select>
+          </div>
+          <div>
+            <label for="sw">Sensor width (mm)</label>
+            <input id="sw" type="number" min="0.1" step="0.01" />
+          </div>
+          <div>
+            <label for="sh">Sensor height (mm)</label>
+            <input id="sh" type="number" min="0.1" step="0.01" />
+          </div>
+          <div>
+            <label for="px">Pixel size (µm)</label>
+            <input id="px" type="number" min="0.1" step="0.01" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="target">Target</label>
+            <select id="target"></select>
+          </div>
+        </div>
+
+        <div class="results" aria-live="polite">
+          <div class="result"><div class="k">Effective focal length</div><div class="v" id="o-efl">—</div></div>
+          <div class="result"><div class="k">Image scale</div><div class="v" id="o-scale">—</div></div>
+          <div class="result"><div class="k">Field of view</div><div class="v" id="o-fov">—</div></div>
+          <div class="result"><div class="k">Sampling</div><div class="v" id="o-samp" style="font-size:1rem">—</div></div>
+        </div>
+        <p id="o-fit" class="meta" style="margin-top:14px"></p>
+
+        <div class="fov-viz"><svg id="viz" viewBox="0 0 600 400" role="img" aria-label="Framing preview"></svg></div>
+        <p class="meta" style="margin-top:12px">
+          Formulas: scale (″/px) = 206.265 × pixel (µm) ÷ focal length (mm) · FOV (′) = 3437.75 × sensor (mm) ÷ focal length (mm).
+          Sensor figures for presets are approximate; check your camera's datasheet.
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <script is:inline>
+    (function () {
+      // Telescope presets: [label, focal length mm]
+      var SCOPES = [
+        ['Custom', null],
+        ['72 mm f/5.8 refractor (420 mm)', 420],
+        ['80 mm f/7.5 refractor (600 mm)', 600],
+        ['130 mm f/5 Newtonian (650 mm)', 650],
+        ['200 mm f/5 Newtonian (1000 mm)', 1000],
+        ['8" f/10 Schmidt-Cassegrain (2032 mm)', 2032],
+      ];
+      // Camera presets: [label, sensor w mm, sensor h mm, pixel µm]
+      var CAMS = [
+        ['Custom', null, null, null],
+        ['ZWO ASI178MC (1/1.8")', 7.43, 4.99, 2.4],
+        ['ZWO ASI585MC (1/1.2")', 11.14, 6.26, 2.9],
+        ['ZWO ASI533MC Pro (1")', 11.31, 11.31, 3.76],
+        ['ZWO ASI294MC Pro (4/3")', 19.2, 13.07, 4.63],
+        ['ZWO ASI2600MC Pro (APS-C)', 23.5, 15.7, 3.76],
+        ['APS-C DSLR (24 MP, ~22.3 × 14.9 mm)', 22.3, 14.9, 3.72],
+        ['Full-frame DSLR (24 MP, 36 × 24 mm)', 36, 24, 5.95],
+      ];
+      // Targets: [label, width ′, height ′]
+      var TARGETS = [
+        ['Full Moon (31′)', 31, 31],
+        ['Andromeda Galaxy M31 (190′ × 60′)', 190, 60],
+        ['Orion Nebula M42 (65′ × 60′)', 65, 60],
+        ['Pleiades M45 (110′)', 110, 110],
+        ['Globular cluster M13 (20′)', 20, 20],
+        ['Dumbbell Nebula M27 (8′ × 5.6′)', 8, 5.6],
+      ];
+
+      var $ = function (id) { return document.getElementById(id); };
+      function fill(sel, rows) {
+        rows.forEach(function (r, i) {
+          var o = document.createElement('option');
+          o.value = i; o.textContent = r[0]; sel.appendChild(o);
+        });
+      }
+      fill($('scope'), SCOPES); fill($('cam'), CAMS); fill($('target'), TARGETS);
+      $('scope').value = 1; $('cam').value = 3; $('target').value = 2;
+
+      function applyScope() {
+        var s = SCOPES[$('scope').value];
+        if (s[1]) $('fl').value = s[1];
+      }
+      function applyCam() {
+        var c = CAMS[$('cam').value];
+        if (c[1]) { $('sw').value = c[1]; $('sh').value = c[2]; $('px').value = c[3]; }
+      }
+
+      function fmtArc(arcmin) {
+        if (arcmin >= 60) return (arcmin / 60).toFixed(2) + '°';
+        return arcmin.toFixed(1) + '′';
+      }
+
+      function update() {
+        var fl = parseFloat($('fl').value), red = parseFloat($('red').value);
+        var sw = parseFloat($('sw').value), sh = parseFloat($('sh').value), px = parseFloat($('px').value);
+        var t = TARGETS[$('target').value];
+        var ok = fl > 0 && red > 0 && sw > 0 && sh > 0 && px > 0;
+        var svg = $('viz');
+        if (!ok) { svg.innerHTML = ''; return; }
+
+        var efl = fl * red;
+        var scale = 206.265 * px / efl;           // arcsec per pixel
+        var fovW = 3437.75 * sw / efl;             // arcmin
+        var fovH = 3437.75 * sh / efl;
+
+        $('o-efl').textContent = efl.toFixed(0) + ' mm';
+        $('o-scale').textContent = scale.toFixed(2) + '″/px';
+        $('o-fov').textContent = fmtArc(fovW) + ' × ' + fmtArc(fovH);
+
+        var samp;
+        if (scale < 0.6) samp = 'Oversampled: bin 2×2 or expect seeing-limited detail';
+        else if (scale <= 2.0) samp = 'Good for typical 2–3″ seeing';
+        else samp = 'Undersampled: wide-field look';
+        $('o-samp').textContent = samp;
+
+        var fitsW = t[1] <= fovW, fitsH = t[2] <= fovH;
+        var pctW = Math.round(100 * t[1] / fovW), pctH = Math.round(100 * t[2] / fovH);
+        $('o-fit').textContent = (fitsW && fitsH)
+          ? 'Fits: target fills about ' + pctW + '% × ' + pctH + '% of the frame.'
+          : 'Does not fit: target is ' + pctW + '% × ' + pctH + '% of the frame. Consider a reducer or a mosaic.';
+
+        // Preview
+        var W = 600, H = Math.max(120, Math.min(560, Math.round(W * sh / sw)));
+        svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+        var pxPerArcmin = W / fovW;
+        var tw = t[1] * pxPerArcmin, th = t[2] * pxPerArcmin;
+        var cx = W / 2, cy = H / 2;
+        var grid = '';
+        for (var i = 1; i < 3; i++) {
+          grid += '<line x1="' + (W * i / 3) + '" y1="0" x2="' + (W * i / 3) + '" y2="' + H + '" stroke="#1f2b4a" stroke-width="1"/>';
+          grid += '<line x1="0" y1="' + (H * i / 3) + '" x2="' + W + '" y2="' + (H * i / 3) + '" stroke="#1f2b4a" stroke-width="1"/>';
+        }
+        svg.innerHTML =
+          '<defs><clipPath id="clip"><rect width="' + W + '" height="' + H + '"/></clipPath>' +
+          '<radialGradient id="g"><stop offset="0%" stop-color="#ffb454" stop-opacity=".85"/><stop offset="100%" stop-color="#ffb454" stop-opacity=".12"/></radialGradient></defs>' +
+          '<rect width="' + W + '" height="' + H + '" fill="#04070f"/>' + grid +
+          '<g clip-path="url(#clip)"><ellipse cx="' + cx + '" cy="' + cy + '" rx="' + (tw / 2) + '" ry="' + (th / 2) + '" fill="url(#g)" stroke="#ffb454" stroke-width="1.5"/></g>' +
+          '<text x="10" y="20" fill="#8a97b8" font-family="monospace" font-size="12">' + fmtArc(fovW) + ' × ' + fmtArc(fovH) + '</text>' +
+          '<text x="10" y="' + (H - 10) + '" fill="#ffb454" font-family="monospace" font-size="12">' + t[0].split(' (')[0] + '</text>';
+      }
+
+      $('scope').addEventListener('change', function () { applyScope(); update(); });
+      $('cam').addEventListener('change', function () { applyCam(); update(); });
+      ['fl', 'red', 'sw', 'sh', 'px', 'target'].forEach(function (id) {
+        $(id).addEventListener('input', function () {
+          if (id === 'fl') $('scope').value = 0;
+          if (id === 'sw' || id === 'sh' || id === 'px') $('cam').value = 0;
+          update();
+        });
+      });
+      applyScope(); applyCam(); update();
+    })();
+  </script>
+</Base>

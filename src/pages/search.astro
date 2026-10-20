@@ -1,0 +1,37 @@
+---
+import { url } from '../site';
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Search" description="Search every build, pipeline, dataset and experiment on Bench & Sky.">
+  <link slot="head" href={url('/pagefind/pagefind-ui.css')} rel="stylesheet" />
+  <div class="wrap">
+    <div class="page-title">
+      <div class="eyebrow">Find things</div>
+      <h1>Search</h1>
+      <p>Full-text search across all posts. Runs entirely in your browser.</p>
+    </div>
+    <section class="section">
+      <div id="search"></div>
+      <noscript><p class="empty">Search needs JavaScript.</p></noscript>
+      <p id="search-dev-note" class="empty" hidden>
+        Search index is created by <code>npm run build</code>. It won't appear under <code>npm run dev</code>;
+        use <code>npm run build &amp;&amp; npm run preview</code> to try it.
+      </p>
+    </section>
+  </div>
+
+  <script is:inline define:vars={{ pagefindJs: url('/pagefind/pagefind-ui.js') }}>
+    (function () {
+      var s = document.createElement('script');
+      s.src = pagefindJs;
+      s.onload = function () {
+        new PagefindUI({ element: '#search', showSubResults: true, showImages: false });
+      };
+      s.onerror = function () {
+        document.getElementById('search-dev-note').hidden = false;
+      };
+      document.head.appendChild(s);
+    })();
+  </script>
+</Base>
