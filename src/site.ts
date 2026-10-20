@@ -30,6 +30,6 @@ export const SECTIONS = {
 
 export type SectionKey = keyof typeof SECTIONS;
 
-// Prefix a root-relative path with the configured base (e.g. /skyworkbench on GitHub Pages).
+// Prefix a root-relative path with the configured base (empty on the custom domain; e.g. /skyworkbench on a github.io project URL).
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
 export const url = (path: string) => BASE + path;

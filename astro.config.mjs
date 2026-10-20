@@ -1,9 +1,8 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// GitHub Pages project site. With a custom domain later: set `site` to it and remove `base`.
+// Served at the root of the custom domain. If you ever go back to a github.io project URL, add base: '/skyworkbench'.
 export default defineConfig({
-  site: 'https://karampitsos.github.io',
-  base: '/skyworkbench',
+  site: 'https://skyworkbench.com',
   integrations: [sitemap()],
 });
