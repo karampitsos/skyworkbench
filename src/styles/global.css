@@ -13,14 +13,14 @@
   Components use the same tokens, so they adapt to whichever surface they sit on.
 */
 :root {
-  --wood: #4f3019;
-  --text: #f6ead6;
-  --muted: #d9c3a1;
-  --accent: #f1b25e; /* lamp amber */
-  --accent-2: #ffd8a0;
-  --line: rgba(255, 225, 180, .18);
-  --line-strong: rgba(255, 225, 180, .38);
-  --surface: rgba(30, 17, 8, .35);
+  --wood: #b98a5c; /* light oak */
+  --text: #2a1a0c; /* dark ink directly on the wood */
+  --muted: #4b3220;
+  --accent: #8f3a12;
+  --accent-2: #7a2f0c;
+  --line: rgba(60, 30, 10, .18);
+  --line-strong: rgba(60, 30, 10, .35);
+  --surface: rgba(255, 244, 228, .35);
 
   --paper: #fbf5e7;
   --paper-2: #f3e8d2;
@@ -40,7 +40,15 @@
   --max: 1080px;
   --prose: 68ch;
   --shadow: 0 1px 1px rgba(40, 20, 5, .25), 0 4px 10px rgba(30, 15, 5, .25), 0 18px 40px rgba(20, 10, 2, .35);
-  color-scheme: dark;
+  color-scheme: light;
+}
+
+/* Header and footer are dark walnut bars with cream text. */
+.site-header, .site-footer {
+  --text: #f6ead6;
+  --muted: #d9c3a1;
+  --accent: #f1b25e;
+  --accent-2: #ffd8a0;
 }
 
 .paper {
@@ -71,6 +79,12 @@
   --margin-rule: rgba(255, 90, 70, .35);
   color-scheme: dark;
 }
+:root[data-night='red'] .site-header, :root[data-night='red'] .site-footer {
+  --text: #ff9a8a;
+  --muted: #b3544a;
+  --accent: #ff5a48;
+  --accent-2: #ff7a66;
+}
 :root[data-night='red'] .paper {
   --text: #ff9a8a;
   --muted: #b3544a;
@@ -97,7 +111,7 @@ body {
   background-color: var(--wood);
   background-image:
     radial-gradient(1100px 700px at 18% -8%, rgba(255, 196, 120, .24), transparent 65%),
-    radial-gradient(1600px 900px at 50% 120%, rgba(10, 5, 0, .55), transparent 70%),
+    radial-gradient(1600px 900px at 50% 120%, rgba(60, 30, 10, .35), transparent 70%),
     url('../assets/textures/wood.svg');
   background-size: auto, auto, 1200px 800px;
   background-attachment: fixed, fixed, scroll;
@@ -185,7 +199,7 @@ h1, h2, h3 { font-family: var(--display); font-weight: 600; font-optical-sizing:
   align-items: center;
   padding: 60px 0 40px;
 }
-.hero h1 { font-size: clamp(2.3rem, 5.4vw, 3.7rem); line-height: 1.05; margin: 8px 0 0; text-shadow: 0 2px 12px rgba(0, 0, 0, .35); }
+.hero h1 { font-size: clamp(2.3rem, 5.4vw, 3.7rem); line-height: 1.05; margin: 8px 0 0; text-shadow: 0 1px 0 rgba(255, 240, 215, .35); }
 .hero p.lead { max-width: 50ch; color: var(--muted); font-size: 1.12rem; margin: 22px 0 26px; }
 
 .desk { position: relative; min-height: 420px; }
@@ -387,7 +401,7 @@ a.pill:hover { color: var(--text); border-color: var(--accent); }
 .downloads a::before { content: '→'; color: var(--accent); }
 
 /* ---------- Footer ---------- */
-.site-footer { margin-top: 60px; padding: 26px 0 40px; color: var(--muted); font-size: 15px; border-top: 1px solid rgba(255, 220, 170, .12); background: rgba(28, 15, 6, .45); }
+.site-footer { margin-top: 60px; padding: 26px 0 40px; color: var(--muted); font-size: 15px; border-top: 1px solid rgba(255, 220, 170, .12); background: rgba(38, 21, 9, .92); }
 :root[data-night='red'] .site-footer { background: none; }
 .site-footer .wrap { display: flex; gap: 20px; flex-wrap: wrap; justify-content: space-between; align-items: baseline; }
 .site-footer .hand { font-size: 1.5rem; color: var(--accent); }
@@ -406,7 +420,7 @@ a.pill:hover { color: var(--text); border-color: var(--accent); }
 }
 
 .page-title { padding: 52px 0 14px; }
-.page-title h1 { font-size: clamp(2rem, 4.8vw, 2.8rem); margin: 4px 0 0; text-shadow: 0 2px 12px rgba(0, 0, 0, .35); }
+.page-title h1 { font-size: clamp(2rem, 4.8vw, 2.8rem); margin: 4px 0 0; text-shadow: 0 1px 0 rgba(255, 240, 215, .35); }
 .page-title p { color: var(--muted); max-width: 60ch; margin: 16px 0 0; }
 
 /* Pagefind results, restyled for paper. */
