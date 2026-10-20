@@ -36,7 +36,7 @@ const is = (p: string) => (p === '/' ? path === url('/') : path.startsWith(url(p
     <meta property="og:type" content={type} />
     <meta property="og:url" content={canonical} />
     <meta name="twitter:card" content="summary" />
-    <meta name="theme-color" content="#0c2747" />
+    <meta name="theme-color" content="#2a170a" />
 
     <script is:inline>
       try {
@@ -48,18 +48,19 @@ const is = (p: string) => (p === '/' ? path === url('/') : path.startsWith(url(p
     <header class="site-header">
       <div class="wrap">
         <a class="brand" href={url('/')} aria-label={`${SITE.name} home`}>
-          <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
-            <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.3" />
-            <path d="M11 1v6M11 15v6M1 11h6M15 11h6" stroke="var(--accent)" stroke-width="1.3" />
+          <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9.5" fill="none" stroke="var(--accent)" stroke-width="1.6" />
+            <circle cx="12" cy="12" r="6" fill="none" stroke="currentColor" stroke-width="1" opacity=".55" />
+            <path d="M7.5 8.5a6 6 0 0 1 4-2.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
           </svg>
-          <span style="color:var(--text)">Sky</span><span>Workbench</span>
+          Sky <span class="hand">Workbench</span>
         </a>
         <nav class="nav" aria-label="Main">
           <a href={url('/')} aria-current={is('/') || is('/posts') ? 'page' : undefined}>Log</a>
           <a href={url('/tools/')} aria-current={is('/tools') ? 'page' : undefined}>Tools</a>
           <a href={url('/about/')} aria-current={is('/about') ? 'page' : undefined}>About</a>
           <a href={url('/search/')} aria-current={is('/search') ? 'page' : undefined}>Search</a>
-          <button id="night-toggle" type="button" title="Toggle red night-vision mode" aria-pressed="false">◐ Red</button>
+          <button id="night-toggle" type="button" title="Toggle red night-vision mode" aria-pressed="false"><span class="dot" aria-hidden="true"></span>Red light</button>
         </nav>
       </div>
     </header>
@@ -70,17 +71,13 @@ const is = (p: string) => (p === '/' ? path === url('/') : path.startsWith(url(p
 
     <footer class="site-footer">
       <div class="wrap">
-        <div class="footer-block">
-          <div><span class="label">Project</span><span class="v">{SITE.name}</span></div>
-          <div><span class="label">Scale</span><span class="v">1 : ∞</span></div>
-          <div><span class="label">Rev.</span><span class="v">{new Date().getFullYear()}</span></div>
-          <div>
-            <span class="label">Index</span>
-            <span class="v">
-              <a href={url('/tags/')}>Tags</a> · <a href={url('/rss.xml')}>RSS</a> · <a href={url('/sitemap-index.xml')}>Sitemap</a>
-            </span>
-          </div>
-        </div>
+        <span>© {new Date().getFullYear()} {SITE.name} · <span class="hand">clear skies!</span></span>
+        <span>
+          <a href={url('/about/')}>About</a> ·
+          <a href={url('/tags/')}>Tags</a> ·
+          <a href={url('/rss.xml')}>RSS</a> ·
+          <a href={url('/sitemap-index.xml')}>Sitemap</a>
+        </span>
       </div>
     </footer>
 

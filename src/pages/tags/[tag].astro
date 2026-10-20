@@ -2,11 +2,11 @@
 import { url } from '../../site';
 import Base from '../../layouts/Base.astro';
 import PostCard from '../../components/PostCard.astro';
-import { getPosts, groupByTag, drawingNumbers } from '../../lib/posts';
+import { getPosts, groupByTag, entryNumbers } from '../../lib/posts';
 
 export async function getStaticPaths() {
   const all = await getPosts();
-  const numbers = drawingNumbers(all);
+  const numbers = entryNumbers(all);
   return [...groupByTag(all).entries()].map(([slug, t]) => ({
     params: { tag: slug },
     props: { label: t.label, posts: t.posts, numbers },
@@ -25,7 +25,7 @@ const { label, posts, numbers } = Astro.props;
       <p>{posts.length} {posts.length === 1 ? 'post' : 'posts'} · <a href={url('/tags/')}>all tags</a></p>
     </div>
     <section class="section">
-      <div class="register">
+      <div class="paper notebook">
         {posts.map((p) => <PostCard post={p} no={numbers.get(p.id)} />)}
       </div>
     </section>
