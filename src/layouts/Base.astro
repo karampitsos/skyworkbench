@@ -57,7 +57,6 @@ const is = (p: string) => (p === '/' ? path === url('/') : path.startsWith(url(p
         </a>
         <nav class="nav" aria-label="Main">
           <a href={url('/')} aria-current={is('/') || is('/posts') ? 'page' : undefined}>Log</a>
-          <a href={url('/tools/')} aria-current={is('/tools') ? 'page' : undefined}>Tools</a>
           <a href={url('/about/')} aria-current={is('/about') ? 'page' : undefined}>About</a>
           <a href={url('/search/')} aria-current={is('/search') ? 'page' : undefined}>Search</a>
           <button id="night-toggle" type="button" title="Toggle red night-vision mode" aria-pressed="false"><span class="dot" aria-hidden="true"></span>Red light</button>

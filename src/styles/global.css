@@ -387,20 +387,6 @@ a.pill:hover { color: var(--text); border-color: var(--accent); }
 .downloads a:hover { border-color: var(--accent); }
 .downloads a::before { content: '→'; color: var(--accent); }
 
-/* ---------- Tools ---------- */
-.tool { max-width: 780px; padding: 26px; }
-.tool .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin-bottom: 18px; }
-.tool label { display: block; font-family: var(--hand); font-size: 1.2rem; font-weight: 700; color: var(--muted); margin-bottom: 2px; }
-.tool input, .tool select { width: 100%; background: #fffdf8; color: var(--text); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 9px 11px; font-family: var(--mono); font-size: 15px; }
-:root[data-night='red'] .tool input, :root[data-night='red'] .tool select { background: #0e0202; }
-.tool input:focus, .tool select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
-.results { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-top: 8px; }
-.result { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; }
-.result .k { font-family: var(--hand); font-size: 1.15rem; color: var(--muted); }
-.result .v { font-family: var(--mono); font-size: 1.35rem; color: var(--accent); margin-top: 2px; }
-.fov-viz { margin-top: 18px; background: #04070f; border-radius: var(--radius); overflow: hidden; }
-.fov-viz svg { display: block; width: 100%; height: auto; }
-
 /* ---------- Footer ---------- */
 .site-footer { margin-top: 60px; padding: 26px 0 40px; color: var(--muted); font-size: 15px; border-top: 1px solid rgba(255, 220, 170, .12); background: rgba(28, 15, 6, .45); }
 :root[data-night='red'] .site-footer { background: none; }

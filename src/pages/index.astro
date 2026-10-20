@@ -19,7 +19,7 @@ const numbers = entryNumbers(posts);
           and working with the data they collect. Real parts lists, real costs, and what went wrong.
         </p>
         <a class="btn primary" href="#log">Open the logbook ↓</a>
-        <a class="btn" href={url('/tools/')}>Tools</a>
+        <a class="btn" href={url('/about/')}>About the bench</a>
       </div>
 
       <div class="desk" aria-label="A handwritten note working out a camera's field of view, next to a telescope mirror and a pencil">
@@ -48,7 +48,7 @@ const numbers = entryNumbers(posts);
           <span class="eq big">&nbsp;&nbsp;≈ 57.3° × d / f</span>
           <span class="eq">APS-C: d = 23.5 mm, f = 1000 mm</span>
           <span class="eq">θ ≈ 57.3 × 23.5 / 1000 ≈ <span class="circled">1.35°</span></span>
-          <span class="aside">≈ 2.6 full Moons across! <a href={url('/tools/field-of-view/')}>try the calculator →</a></span>
+          <span class="aside">≈ 2.6 full Moons across!</span>
         </div>
         <svg class="pencil" viewBox="0 0 220 26" aria-hidden="true">
           <rect x="0" y="4" width="20" height="18" rx="4" fill="#e48a83" />
@@ -76,15 +76,5 @@ const numbers = entryNumbers(posts);
       </div>
     </section>
 
-    <section class="section">
-      <h2>Tools</h2>
-      <div class="grid cols-2">
-        <a class="card" href={url('/tools/field-of-view/')}>
-          <div class="icon">FOV</div>
-          <h3>Field-of-view calculator</h3>
-          <p>Pick a scope and camera, see image scale, field size and a framing preview.</p>
-        </a>
-      </div>
-    </section>
   </div>
 </Base>

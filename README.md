@@ -1,6 +1,6 @@
 # Sky Workbench
 
-A hands-on astronomy lab notebook built with [Astro](https://astro.build). Static site, Markdown posts, full-text search (Pagefind), RSS, sitemap, tag pages, a red night-vision mode, and an interactive field-of-view calculator.
+A hands-on astronomy lab notebook built with [Astro](https://astro.build). Static site, Markdown posts, full-text search (Pagefind), RSS, sitemap, tag pages, and a red night-vision mode.
 
 ## Run it
 
@@ -44,7 +44,7 @@ Keep large datasets and images off the repo: host them on Zenodo, object storage
 ## Before you publish
 
 1. Set your real address in `astro.config.mjs` (`site`) and in `public/robots.txt`.
-3. Sections and tagline live in `src/site.ts`.
+2. The name and tagline live in `src/site.ts`.
 
 ## Deploy
 
@@ -55,12 +55,12 @@ Keep large datasets and images off the repo: host them on Zenodo, object storage
 
 ```
 src/content/posts/   your Markdown posts
-src/pages/           routes (home, sections, tags, posts, tools, search, rss)
+src/pages/           routes (home, tags, posts, about, search, rss)
 src/layouts/Base.astro   head tags, nav, red-mode toggle
 src/styles/global.css    all styling and colour variables
-src/site.ts          name, tagline, sections
+src/site.ts          name, tagline
 ```
 
-## Add another tool
+## Interactive components
 
-Create `src/pages/tools/your-tool.astro` (copy `field-of-view.astro` as a starting point) and link it from `src/pages/tools/index.astro`. For richer interactive components you can add React or Svelte with `npx astro add react`.
+For an interactive post you can add React or Svelte with `npx astro add react`.
