@@ -1,5 +1,5 @@
 export const SITE = {
-  name: 'Bench & Sky',
+  name: 'Sky Workbench',
   tagline: 'Build it. Run it. Look up.',
   description:
     'A hands-on astronomy lab notebook: telescope builds, space-telescope data pipelines, datasets and experiments you can reproduce.',
@@ -30,6 +30,6 @@ export const SECTIONS = {
 
 export type SectionKey = keyof typeof SECTIONS;
 
-// Prefix a root-relative path with the configured base (e.g. /benchandsky on GitHub Pages).
+// Prefix a root-relative path with the configured base (e.g. /skyworkbench on GitHub Pages).
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
 export const url = (path: string) => BASE + path;

@@ -1,4 +1,4 @@
-# Bench & Sky
+# Sky Workbench
 
 A hands-on astronomy lab notebook built with [Astro](https://astro.build). Static site, Markdown posts, full-text search (Pagefind), RSS, sitemap, tag pages, a red night-vision mode, and an interactive field-of-view calculator.
 
