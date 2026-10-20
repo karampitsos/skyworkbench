@@ -36,7 +36,7 @@ const is = (p: string) => (p === '/' ? path === url('/') : path.startsWith(url(p
     <meta property="og:type" content={type} />
     <meta property="og:url" content={canonical} />
     <meta name="twitter:card" content="summary" />
-    <meta name="theme-color" content="#070b16" />
+    <meta name="theme-color" content="#0c2747" />
 
     <script is:inline>
       try {
@@ -47,15 +47,19 @@ const is = (p: string) => (p === '/' ? path === url('/') : path.startsWith(url(p
   <body>
     <header class="site-header">
       <div class="wrap">
-        <a class="brand" href={url('/')}>Sky<span>Workbench</span></a>
+        <a class="brand" href={url('/')} aria-label={`${SITE.name} home`}>
+          <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.3" />
+            <path d="M11 1v6M11 15v6M1 11h6M15 11h6" stroke="var(--accent)" stroke-width="1.3" />
+          </svg>
+          <span style="color:var(--text)">Sky</span><span>Workbench</span>
+        </a>
         <nav class="nav" aria-label="Main">
-          <a href={url('/section/builds/')} aria-current={is('/section/builds') ? 'page' : undefined}>Builds</a>
-          <a href={url('/section/pipelines/')} aria-current={is('/section/pipelines') ? 'page' : undefined}>Pipelines</a>
-          <a href={url('/section/datasets/')} aria-current={is('/section/datasets') ? 'page' : undefined}>Datasets</a>
-          <a href={url('/section/experiments/')} aria-current={is('/section/experiments') ? 'page' : undefined}>Experiments</a>
+          <a href={url('/')} aria-current={is('/') || is('/posts') ? 'page' : undefined}>Log</a>
           <a href={url('/tools/')} aria-current={is('/tools') ? 'page' : undefined}>Tools</a>
+          <a href={url('/about/')} aria-current={is('/about') ? 'page' : undefined}>About</a>
           <a href={url('/search/')} aria-current={is('/search') ? 'page' : undefined}>Search</a>
-          <button id="night-toggle" type="button" title="Toggle red night-vision mode" aria-pressed="false">◐ red</button>
+          <button id="night-toggle" type="button" title="Toggle red night-vision mode" aria-pressed="false">◐ Red</button>
         </nav>
       </div>
     </header>
@@ -66,13 +70,17 @@ const is = (p: string) => (p === '/' ? path === url('/') : path.startsWith(url(p
 
     <footer class="site-footer">
       <div class="wrap">
-        <span>© {new Date().getFullYear()} {SITE.name}. Clear skies.</span>
-        <span>
-          <a href={url('/about/')}>About</a> ·
-          <a href={url('/tags/')}>Tags</a> ·
-          <a href={url('/rss.xml')}>RSS</a> ·
-          <a href={url('/sitemap-index.xml')}>Sitemap</a>
-        </span>
+        <div class="footer-block">
+          <div><span class="label">Project</span><span class="v">{SITE.name}</span></div>
+          <div><span class="label">Scale</span><span class="v">1 : ∞</span></div>
+          <div><span class="label">Rev.</span><span class="v">{new Date().getFullYear()}</span></div>
+          <div>
+            <span class="label">Index</span>
+            <span class="v">
+              <a href={url('/tags/')}>Tags</a> · <a href={url('/rss.xml')}>RSS</a> · <a href={url('/sitemap-index.xml')}>Sitemap</a>
+            </span>
+          </div>
+        </div>
       </div>
     </footer>
 

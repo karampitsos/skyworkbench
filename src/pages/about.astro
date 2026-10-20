@@ -6,7 +6,8 @@ import Base from '../layouts/Base.astro';
   <div class="wrap">
     <div class="page-title">
       <div class="eyebrow">About</div>
-      <h1>A lab notebook for the sky</h1>
+      <h1>A workbench for the sky</h1>
+      <div class="dim" aria-hidden="true"></div>
     </div>
     <section class="section prose">
       <p>
@@ -14,16 +15,15 @@ import Base from '../layouts/Base.astro';
         meant to be reproducible: what the goal was, what it took, what happened, and the files to try it
         yourself.
       </p>
-      <h2>How posts are organised</h2>
-      <ul>
-        <li><strong>Builds</strong> — telescope mods, mounts and trackers, with costs and failures.</li>
-        <li><strong>Pipelines</strong> — code that turns JWST, TESS, Gaia and Hubble archive data into results.</li>
-        <li><strong>Datasets</strong> — curated downloads, with notes on format and use.</li>
-        <li><strong>Experiments</strong> — a question, a method, and numbers.</li>
-      </ul>
+      <h2>How posts are structured</h2>
+      <p>
+        Each post is a numbered drawing (DWG-001, DWG-002, …) in the order it was published. It opens with a
+        title block: the goal, difficulty, time, cost and a bill of materials. Then comes the build or the
+        analysis itself, including what went wrong, and links to the files and code so you can repeat it.
+      </p>
       <h2>Red mode</h2>
       <p>
-        The <code>◐ red</code> button in the header turns the whole site red so you can read it at the
+        The <code>◐ Red</code> button in the header turns the whole site red so you can read it at the
         eyepiece without wrecking your night vision.
       </p>
       <h2>Contact</h2>

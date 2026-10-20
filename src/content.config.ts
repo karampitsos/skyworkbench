@@ -7,7 +7,8 @@ const posts = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    section: z.enum(['builds', 'pipelines', 'datasets', 'experiments']),
+    // Not shown on the site for now; kept so posts can be grouped again later.
+    section: z.enum(['builds', 'pipelines', 'datasets', 'experiments']).optional(),
     date: z.coerce.date(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),

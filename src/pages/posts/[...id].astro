@@ -1,15 +1,16 @@
 ---
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import { SECTIONS, url } from '../../site';
-import { getPosts, formatDate, slugifyTag } from '../../lib/posts';
+import { url } from '../../site';
+import { getPosts, formatDate, slugifyTag, drawingNumbers } from '../../lib/posts';
 
 export async function getStaticPaths() {
   const posts = await getPosts();
-  return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
+  const numbers = drawingNumbers(posts);
+  return posts.map((post) => ({ params: { id: post.id }, props: { post, no: numbers.get(post.id) } }));
 }
 
-const { post } = Astro.props;
+const { post, no } = Astro.props;
 const { Content, headings } = await render(post);
 const d = post.data;
 const hasSpec = d.goal || d.cost || d.time || d.difficulty || d.materials.length;
@@ -29,29 +30,29 @@ const jsonLd = {
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} slot="head" is:inline />
   <article class="wrap post" data-pagefind-body>
     <header>
-      <div class="meta">
-        <a class="pill sec" href={url(`/section/${d.section}/`)}>{SECTIONS[d.section].label}</a>
-        <time datetime={d.date.toISOString()}>{formatDate(d.date)}</time>
-      </div>
+      <div class="eyebrow">{no} · <time datetime={d.date.toISOString()}>{formatDate(d.date)}</time></div>
       <h1>{d.title}</h1>
+      <div class="dim" aria-hidden="true"></div>
       <p class="desc">{d.description}</p>
     </header>
 
     {
       hasSpec && (
-        <aside class="spec" aria-label="Project summary">
-          <dl>
-            {d.goal && (<><dt>Goal</dt><dd>{d.goal}</dd></>)}
-            {d.difficulty && (<><dt>Difficulty</dt><dd>{d.difficulty}</dd></>)}
-            {d.time && (<><dt>Time</dt><dd>{d.time}</dd></>)}
-            {d.cost && (<><dt>Cost</dt><dd>{d.cost}</dd></>)}
-            {d.materials.length > 0 && (
-              <>
-                <dt>Materials</dt>
-                <dd><ul>{d.materials.map((m) => <li>{m}</li>)}</ul></dd>
-              </>
-            )}
-          </dl>
+        <aside class="titleblock" aria-label="Project summary">
+          {d.goal && (<div class="cell"><span class="label">Goal</span><div class="v">{d.goal}</div></div>)}
+          {(d.difficulty || d.time || d.cost) && (
+            <div class="row">
+              {d.difficulty && (<div class="cell"><span class="label">Difficulty</span><div class="v">{d.difficulty}</div></div>)}
+              {d.time && (<div class="cell"><span class="label">Time</span><div class="v">{d.time}</div></div>)}
+              {d.cost && (<div class="cell"><span class="label">Cost</span><div class="v">{d.cost}</div></div>)}
+            </div>
+          )}
+          {d.materials.length > 0 && (
+            <div class="cell">
+              <span class="label">Bill of materials</span>
+              <ol>{d.materials.map((m) => <li>{m}</li>)}</ol>
+            </div>
+          )}
         </aside>
       )
     }

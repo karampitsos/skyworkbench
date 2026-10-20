@@ -5,7 +5,8 @@ Astro static blog about hands-on astronomy ("doing, not just narrating"): telesc
 ## Decisions already made
 - Name: **Sky Workbench** (renamed from Bench & Sky on 2026-10-20 because benchandsky.com was taken). Domain skyworkbench.com bought at Cloudflare Registrar on 2026-10-20 (DNS at Cloudflare, records DNS-only, verified on GitHub). Only name clash found: ACI Sky Workbench (real-estate appraisal software, unrelated).
 - Stack: Astro 7 + Markdown content collection, Pagefind search, @astrojs/rss, @astrojs/sitemap. No UI framework yet (add React/Svelte with `npx astro add` when an interactive post needs it).
-- Sections (src/site.ts): builds, pipelines, datasets, experiments. Post front matter has "doing" fields: goal, difficulty, time, cost, materials, files.
+- No categories for now (decided 2026-10-20): one chronological "drawing register" on the homepage; section pages removed. `section` stays in the schema as optional so grouping can return. Post front matter has "doing" fields: goal, difficulty, time, cost, materials, files.
+- Design: blueprint/drafting style (src/styles/global.css): cyanotype blue + grid, IBM Plex Sans/Mono self-hosted via @fontsource, posts numbered DWG-001… by publish order (drawingNumbers in src/lib/posts.ts), title block for the summary, red night mode kept. No personal location on the site.
 - Hosting: GitHub Pages, public repo github.com/karampitsos/skyworkbench, live at https://skyworkbench.com (custom domain set in repo Pages settings; github.io URL redirects). Deployed by .github/workflows/deploy.yml on push to main.
 - No `base` now (site at domain root), but keep building internal links with `url('/path/')` from src/site.ts so a base can be reintroduced. In Markdown posts use relative links.
 - SEO: unique URLs, titles, descriptions, canonical, sitemap, robots.txt, RSS, JSON-LD on posts.

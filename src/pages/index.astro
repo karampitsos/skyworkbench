@@ -1,52 +1,107 @@
 ---
 import Base from '../layouts/Base.astro';
 import PostCard from '../components/PostCard.astro';
-import { SITE, SECTIONS, type SectionKey, url } from '../site';
-import { getPosts } from '../lib/posts';
+import { SITE, url } from '../site';
+import { getPosts, drawingNumbers } from '../lib/posts';
 
 const posts = await getPosts();
-const latest = posts.slice(0, 6);
-const counts = (k: string) => posts.filter((p) => p.data.section === k).length;
+const numbers = drawingNumbers(posts);
 ---
 
 <Base>
   <div class="wrap">
     <section class="hero">
-      <div class="eyebrow">Lab notebook · astronomy you can do</div>
-      <h1>{SITE.tagline}</h1>
-      <p class="lead">
-        Telescope builds with real parts lists, pipelines that turn space-telescope data into results,
-        datasets you can download, and experiments with numbers. Less narrating, more doing.
-      </p>
-      <a class="btn primary" href={url('/section/builds/')}>Start with a build →</a>
-      <a class="btn" href={url('/tools/')}>Open the tools</a>
-    </section>
-
-    <section class="section">
-      <h2>What you can do here</h2>
-      <div class="grid cols-4">
-        {
-          (Object.keys(SECTIONS) as SectionKey[]).map((k) => (
-            <a class="card" href={url(`/section/${k}/`)}>
-              <div class="icon">{SECTIONS[k].icon}</div>
-              <h3>{SECTIONS[k].label}</h3>
-              <p>{SECTIONS[k].blurb}</p>
-              <div class="meta" style="margin-top:10px">{counts(k)} {counts(k) === 1 ? 'post' : 'posts'}</div>
-            </a>
-          ))
-        }
+      <div>
+        <div class="eyebrow">Sheet 00 · Index</div>
+        <h1>{SITE.tagline}</h1>
+        <div class="dim" aria-hidden="true"></div>
+        <p class="lead">
+          A build log of hands-on astronomy: upgrading telescopes and mounts, writing the code that drives them,
+          and working with the data they collect. Real parts lists, real costs, and what went wrong.
+        </p>
+        <a class="btn primary" href="#log">Read the log ↓</a>
+        <a class="btn" href={url('/tools/')}>Open the tools</a>
       </div>
+
+      <svg class="hero-drawing" viewBox="0 0 380 320" role="img" aria-labelledby="fig-title">
+        <title id="fig-title">Line drawing of a Newtonian telescope on an equatorial mount, polar axis pointing at Polaris</title>
+        <!-- polar axis -->
+        <line class="ink-dash" x1="120.6" y1="215.8" x2="329.4" y2="52.6" />
+        <path class="ink-mark" d="M336 39 l2 6 6 2 -6 2 -2 6 -2 -6 -6 -2 6 -2z" />
+        <text class="ink-text hi" x="286" y="30">Polaris</text>
+
+        <!-- latitude angle -->
+        <line class="ink-thin" x1="160" y1="185" x2="100" y2="185" />
+        <path class="ink-thin" d="M116 185 A44 44 0 0 0 125.3 212.1" />
+        <text class="ink-text" x="92" y="226">38°</text>
+
+        <!-- tripod -->
+        <line class="ink" x1="160" y1="205" x2="96" y2="296" />
+        <line class="ink" x1="160" y1="205" x2="224" y2="296" />
+        <line class="ink-thin" x1="160" y1="205" x2="168" y2="290" />
+        <line class="ink-thin" x1="125" y1="255" x2="195" y2="255" />
+        <line class="ink-thin" x1="40" y1="296" x2="340" y2="296" />
+        <rect class="ink-fill" x="146" y="196" width="28" height="10" />
+
+        <!-- counterweight shaft and weight -->
+        <line class="ink" x1="185.2" y1="165.3" x2="243.7" y2="240.2" />
+        <g transform="translate(234.5 228.3) rotate(52)"><rect class="ink-fill" x="-8" y="-15" width="16" height="30" /></g>
+
+        <!-- RA housing + RA motor -->
+        <g transform="translate(160 185) rotate(-38)">
+          <rect class="ink-fill" x="-32" y="-12" width="64" height="24" />
+          <rect class="ink" x="-34" y="16" width="16" height="16" />
+          <circle class="ink-thin" cx="-26" cy="24" r="3" />
+        </g>
+
+        <!-- Dec housing + Dec motor -->
+        <g transform="translate(185.2 165.3) rotate(52)">
+          <rect class="ink-fill" x="-17" y="-9" width="34" height="18" />
+          <rect class="ink" x="-6" y="-26" width="16" height="16" />
+          <circle class="ink-thin" cx="2" cy="-18" r="3" />
+        </g>
+
+        <!-- optical tube, parallel to the polar axis (home position) -->
+        <g transform="translate(155.6 127.5) rotate(-38)">
+          <rect class="ink-fill" x="-105" y="-22" width="210" height="44" />
+          <line class="ink-thin" x1="-96" y1="-18" x2="-96" y2="18" />
+          <rect class="ink" x="-40" y="-26" width="8" height="52" />
+          <rect class="ink" x="30" y="-26" width="8" height="52" />
+          <rect class="ink" x="-50" y="22" width="96" height="6" />
+          <rect class="ink" x="70" y="-31" width="14" height="9" />
+          <!-- dimension line -->
+          <line class="ink-thin" x1="-105" y1="-40" x2="105" y2="-40" />
+          <line class="ink-thin" x1="-105" y1="-45" x2="-105" y2="-33" />
+          <line class="ink-thin" x1="105" y1="-45" x2="105" y2="-33" />
+          <text class="ink-text" x="0" y="-45" text-anchor="middle">Optical tube</text>
+        </g>
+
+        <!-- callouts -->
+        <polyline class="ink-thin" points="200.6,155.8 258,118 352,118" />
+        <circle class="ink-mark" cx="200.6" cy="155.8" r="2" />
+        <text class="ink-text hi" x="260" y="131">Dec drive</text>
+        <text class="ink-text" x="260" y="144">NEMA17 · 3:1</text>
+
+        <polyline class="ink-thin" points="154.3,219.9 112,268 8,268" />
+        <circle class="ink-mark" cx="154.3" cy="219.9" r="2" />
+        <text class="ink-text hi" x="8" y="281">RA drive</text>
+        <text class="ink-text" x="8" y="294">NEMA17 · 3:1</text>
+
+        <text class="ink-text" x="376" y="314" text-anchor="end">Fig. 0 · EQ mount, home position</text>
+      </svg>
     </section>
 
-    <section class="section">
-      <h2>Latest</h2>
+    <section class="section" id="log">
+      <h2>Drawing register</h2>
       {
-        latest.length ? (
-          <div class="post-list">
-            {latest.map((p) => <PostCard post={p} />)}
+        posts.length ? (
+          <div class="register">
+            {posts.map((p) => <PostCard post={p} no={numbers.get(p.id)} />)}
           </div>
         ) : (
-          <p class="empty">No posts yet.</p>
+          <div class="register">
+            <p class="empty">DWG-001 · first entry on the drafting table. Coming soon.</p>
+          </div>
         )
       }
     </section>

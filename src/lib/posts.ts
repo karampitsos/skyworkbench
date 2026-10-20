@@ -10,6 +10,12 @@ export async function getPosts(): Promise<Post[]> {
   return all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 }
 
+/** Drawing numbers in publication order: the first post is DWG-001. */
+export function drawingNumbers(posts: Post[]): Map<string, string> {
+  const ordered = [...posts].sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf() || a.id.localeCompare(b.id));
+  return new Map(ordered.map((p, i) => [p.id, `DWG-${String(i + 1).padStart(3, '0')}`]));
+}
+
 export function slugifyTag(tag: string): string {
   return tag
     .toLowerCase()
