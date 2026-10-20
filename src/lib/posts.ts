@@ -7,7 +7,7 @@ export async function getPosts(): Promise<Post[]> {
   const all = await getCollection('posts', ({ data }) =>
     import.meta.env.PROD ? !data.draft : true,
   );
-  return all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  return all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf() || b.id.localeCompare(a.id));
 }
 
 /** Logbook entry numbers in publication order: the first post is "No. 1". */

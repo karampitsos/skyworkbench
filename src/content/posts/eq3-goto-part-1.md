@@ -30,7 +30,7 @@ My first telescope, like that of many amateur astronomers, was a Newtonian on an
 
 A new GoTo mount was more than I could afford. Upgrade kits exist for Sky-Watcher mounts (the [OnStep kits](https://www.terransindustry.com/collections/onstep-v4-kit), for example), but I couldn't find one for the EQ-3. Bresser sells a [single-axis RA motor](https://www.bresser.com/p/bresser-ra-tracking-motor-controller-4951400), but it only tracks, and it's expensive for what it does.
 
-So for years I waited and grumbled. Then it struck me: instead of waiting, why not upgrade the mount myself? This series is how that went. In this first part I motorise both axes and spin the motors from a computer. Part 2 covers the firmware that turns it into a working GoTo mount.
+So for years I waited and grumbled. Then it struck me: instead of waiting, why not upgrade the mount myself? This series is how that went. In this first part I motorise both axes and spin the motors from a computer. [Part 2](../eq3-goto-part-2/) covers the firmware that turns it into a working GoTo mount.
 
 ## 1. The mechanics of the first axis (declination)
 
@@ -132,7 +132,7 @@ The gap between the two numbers is the price of learning: spare belts, the A4988
 
 ## Where it ended up
 
-This is the mount today, on my terrace: the Newtonian on the motorised EQ-3, a camera at the focuser, the electronics strapped to a tripod leg, and the laptop running the control software. How it got from two spinning motors to this is part 2.
+This is the mount today, on my terrace: the Newtonian on the motorised EQ-3, a camera at the focuser, the electronics strapped to a tripod leg, and the laptop running the control software. How it got from two spinning motors to this is [part 2](../eq3-goto-part-2/).
 
 ![The motorised Bresser EQ-3 with a Newtonian telescope on a terrace at night, cables running to a laptop on a table](../../assets/posts/eq3-goto/setup-terrace.jpg)
 
@@ -150,4 +150,4 @@ And a first taste of what it can do. Both images are stacks of short exposures (
 
 ## Next: making it a GoTo mount
 
-At this point I had two motors that turned on command. A GoTo mount also needs to know where it's pointing, track the sky at the right speed, and talk to planetarium software. In part 2 I write my own firmware for the Arduino. It speaks the Meade LX200 protocol, so KStars/Ekos can drive the mount for GoTo and autoguiding.
+At this point I had two motors that turned on command. A GoTo mount also needs to know where it's pointing, track the sky at the right speed, and talk to planetarium software. In [part 2](../eq3-goto-part-2/) I write my own firmware for the Arduino. It speaks the Meade LX200 protocol, so KStars/Ekos can drive the mount for GoTo and autoguiding.
