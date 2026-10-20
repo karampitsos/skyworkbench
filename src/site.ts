@@ -2,7 +2,7 @@ export const SITE = {
   name: 'Sky Workbench',
   tagline: 'Build it. Run it. Look up.',
   description:
-    'A hands-on astronomy build log: telescope and mount upgrades, the code that drives them, and the data they collect. Parts lists, costs and what went wrong.',
+    'Hands-on astronomy for people who would rather build the thing than read about it: reproducible projects with the goal, what it took, what happened, and the files to try it yourself.',
 };
 
 // Prefix a root-relative path with the configured base (empty on the custom domain; e.g. /skyworkbench on a github.io project URL).
