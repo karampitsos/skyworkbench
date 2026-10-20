@@ -424,6 +424,24 @@ a.pill:hover { color: var(--text); border-color: var(--accent); }
 .page-title h1 { font-size: clamp(2rem, 4.8vw, 2.8rem); margin: 4px 0 0; text-shadow: 0 2px 12px rgba(0, 0, 0, .35); }
 .page-title p { color: var(--muted); max-width: 60ch; margin: 16px 0 0; }
 
+/* Pagefind results, restyled for paper. */
+#search { font-family: var(--serif); }
+#search .pagefind-ui__search-input { font-family: var(--serif); font-weight: 400; font-size: 1.05rem; color: var(--text); }
+#search .pagefind-ui__search-input::placeholder { color: var(--muted); opacity: .8; }
+#search .pagefind-ui__search-clear { font-family: var(--hand); font-size: 1.2rem; color: var(--accent); background: transparent; }
+#search .pagefind-ui__message { font-family: var(--hand); font-size: 1.4rem; color: var(--accent); font-weight: 700; }
+#search .pagefind-ui__result { border-top: 1px solid var(--rule); padding: 20px 0; }
+#search .pagefind-ui__results-area { margin-top: 18px; }
+#search .pagefind-ui__result-title { font-family: var(--display); font-weight: 600; font-size: 1.3rem; }
+#search .pagefind-ui__result-link { color: var(--text); text-decoration: none; }
+#search .pagefind-ui__result-link:hover { color: var(--accent); }
+#search .pagefind-ui__result-nested .pagefind-ui__result-link { font-family: var(--serif); font-size: 1.02rem; color: var(--accent-2); }
+#search .pagefind-ui__result-nested .pagefind-ui__result-link::before { color: var(--accent); }
+#search .pagefind-ui__result-excerpt { color: var(--muted); font-size: 1rem; line-height: 1.55; }
+#search mark { background: linear-gradient(transparent 35%, rgba(241, 178, 94, .55) 35% 90%, transparent 90%); color: inherit; padding: 0 1px; }
+#search .pagefind-ui__button { font-family: var(--serif); font-weight: 600; color: var(--text); background: var(--surface); border-color: var(--line-strong); }
+:root[data-night='red'] #search mark { background: rgba(255, 90, 70, .25); }
+
 /* Generic content sheet for About, Search, Tags. */
 .page-sheet { max-width: 860px; padding: 34px clamp(20px, 5vw, 56px) 30px; margin-bottom: 20px; }
 

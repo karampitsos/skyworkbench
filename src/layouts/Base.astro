@@ -73,9 +73,9 @@ const is = (p: string) => (p === '/' ? path === url('/') : path.startsWith(url(p
       <div class="wrap">
         <span>© {new Date().getFullYear()} {SITE.name} · <span class="hand">clear skies!</span></span>
         <span>
-          <a href={url('/about/')}>About</a> ·
-          <a href={url('/tags/')}>Tags</a> ·
-          <a href={url('/rss.xml')}>RSS</a> ·
+          <a href={url('/about/')}>About</a>{' · '}
+          <a href={url('/tags/')}>Tags</a>{' · '}
+          <a href={url('/rss.xml')}>RSS</a>{' · '}
           <a href={url('/sitemap-index.xml')}>Sitemap</a>
         </span>
       </div>

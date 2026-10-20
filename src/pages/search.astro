@@ -3,14 +3,14 @@ import { url } from '../site';
 import Base from '../layouts/Base.astro';
 ---
 
-<Base title="Search" description="Search every build, pipeline, dataset and experiment on Sky Workbench.">
+<Base title="Search" description="Search every post in the Sky Workbench logbook.">
   <link slot="head" href={url('/pagefind/pagefind-ui.css')} rel="stylesheet" />
   <div class="wrap">
     <div class="page-title">
-      <div class="eyebrow">Find things</div>
+      <div class="eyebrow">look it up</div>
       <h1>Search</h1>
       <div class="dim" aria-hidden="true"></div>
-      <p>Full-text search across all posts. Runs entirely in your browser.</p>
+      <p>Search every post: parts, code, numbers, mistakes. It runs entirely in your browser.</p>
     </div>
     <section class="paper page-sheet">
       <div id="search"></div>
@@ -27,7 +27,16 @@ import Base from '../layouts/Base.astro';
       var s = document.createElement('script');
       s.src = pagefindJs;
       s.onload = function () {
-        new PagefindUI({ element: '#search', showSubResults: true, showImages: false });
+        var ui = new PagefindUI({
+          element: '#search',
+          showSubResults: true,
+          showImages: false,
+          autofocus: true,
+          translations: { placeholder: 'Search the logbook… e.g. belt, NEMA 17, pulley' },
+        });
+        // Allow linking to a search: /search/?q=stepper
+        var q = new URLSearchParams(location.search).get('q');
+        if (q) ui.triggerSearch(q);
       };
       s.onerror = function () {
         document.getElementById('search-dev-note').hidden = false;
