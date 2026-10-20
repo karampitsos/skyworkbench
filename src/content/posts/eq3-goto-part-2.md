@@ -4,6 +4,8 @@ description: "Two spinning motors don't make a GoTo mount. Here is the Arduino f
 section: builds
 date: 2026-10-20
 draft: false
+cover: "../../assets/posts/eq3-goto/bubble-nebula.jpg"
+coverAlt: "The Bubble Nebula, a faint reddish arc around a bright star"
 tags: ["Bresser EQ-3", "GoTo", "Arduino", "LX200", "KStars", "Ekos", "Firmware", "Astrophotography"]
 goal: "Turn two motorised axes into a mount that knows where it points, tracks the sky and takes GoTo and guiding commands from planetarium software."
 difficulty: medium

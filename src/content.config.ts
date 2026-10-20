@@ -4,7 +4,7 @@ import { z } from 'astro/zod';
 
 const posts = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/posts' }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     title: z.string(),
     description: z.string(),
     // Not shown on the site for now; kept so posts can be grouped again later.
@@ -12,6 +12,9 @@ const posts = defineCollection({
     date: z.coerce.date(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
+    // Thumbnail for the logbook and the social preview card (path relative to the post file).
+    cover: image().optional(),
+    coverAlt: z.string().default(''),
     // "Doing" metadata: shown in a summary box on the post.
     goal: z.string().optional(),
     cost: z.string().optional(),

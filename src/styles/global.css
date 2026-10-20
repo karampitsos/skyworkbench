@@ -312,6 +312,8 @@ a.pill:hover { color: var(--text); border-color: var(--accent); }
   color: var(--text);
   text-decoration: none;
 }
+.register-row.has-thumb { grid-template-columns: 74px minmax(0, 1fr) 88px auto; align-items: center; }
+.register-row .thumb { width: 88px; height: 60px; object-fit: cover; border: 3px solid #fffaf0; box-shadow: 0 1px 4px rgba(42, 26, 14, .35); transform: rotate(1.5deg); }
 .register-row:last-child { border-bottom: 1px solid var(--rule); }
 .register-row:hover h3 { color: var(--accent); }
 .register-row .no { font-family: var(--hand); font-size: 1.3rem; font-weight: 700; color: var(--accent); text-align: center; }
@@ -433,7 +435,9 @@ a.pill:hover { color: var(--text); border-color: var(--accent); }
   .notebook { background-position: -40px 0, 0 0, 0 0; }
   .notebook .heading { padding-left: 52px; }
   .register-row { grid-template-columns: 34px minmax(0, 1fr); gap: 4px 18px; padding-right: 16px; }
+  .register-row.has-thumb { grid-template-columns: 34px minmax(0, 1fr) 72px; }
   .register-row .no { grid-row: span 2; }
+  .register-row .thumb { grid-column: 3; grid-row: 1 / span 3; width: 72px; height: 54px; }
   .register-row time { grid-column: 2; }
   .empty { padding-left: 52px; }
   .sheet { padding-top: 44px; }

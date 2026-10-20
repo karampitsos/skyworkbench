@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import { url } from '../site';
 import { formatDate, type Post } from '../lib/posts';
 
@@ -7,14 +8,15 @@ interface Props {
   no?: string;
 }
 const { post, no } = Astro.props;
-const { title, description, date } = post.data;
+const { title, description, date, cover, coverAlt } = post.data;
 ---
 
-<a class="register-row" href={url(`/posts/${post.id}/`)}>
+<a class:list={['register-row', cover && 'has-thumb']} href={url(`/posts/${post.id}/`)}>
   <span class="no">{no}</span>
   <div>
     <h3>{title}</h3>
     <p>{description}</p>
   </div>
+  {cover && <Image class="thumb" src={cover} alt={coverAlt} width={176} height={120} loading="lazy" />}
   <time datetime={date.toISOString()}>{formatDate(date)}</time>
 </a>
