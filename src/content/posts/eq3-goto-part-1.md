@@ -1,6 +1,6 @@
 ---
 title: "Bresser EQ-3 to GoTo, part 1: motors, belts and the first spin"
-description: "No upgrade kit exists for the Bresser EQ-3, so I motorised both axes myself with NEMA 17 steppers and GT2 belts. Parts, costs, belt-size guesswork and the electronics mistakes I made on the way."
+description: "No upgrade kit exists for the Bresser EQ-3, so I motorised both axes myself with NEMA 17 steppers and GT2 belts: parts, costs and the mistakes I made."
 section: builds
 date: 2026-10-20
 draft: false

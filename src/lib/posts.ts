@@ -1,19 +1,25 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
+import type { Lang } from '../i18n';
 
 export type Post = CollectionEntry<'posts'>;
 
-/** All non-draft posts, newest first. Drafts still show in `astro dev`. */
-export async function getPosts(): Promise<Post[]> {
-  const all = await getCollection('posts', ({ data }) =>
-    import.meta.env.PROD ? !data.draft : true,
+/** Greek translations live in src/content/posts/el/ with the same file name as the English post. */
+export const postLang = (p: Post): Lang => (p.id.startsWith('el/') ? 'el' : 'en');
+/** The URL slug, shared by a post and its translation. */
+export const postSlug = (p: Post) => p.id.replace(/^el\//, '');
+
+/** All non-draft posts in one language, newest first. Drafts still show in `astro dev`. */
+export async function getPosts(lang: Lang = 'en'): Promise<Post[]> {
+  const all = await getCollection('posts', (p) =>
+    postLang(p) === lang && (import.meta.env.PROD ? !p.data.draft : true),
   );
   return all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf() || b.id.localeCompare(a.id));
 }
 
-/** Logbook entry numbers in publication order: the first post is "No. 1". */
-export function entryNumbers(posts: Post[]): Map<string, string> {
+/** Logbook entry numbers in publication order, keyed by post id: the first post is "No. 1". */
+export function entryNumbers(posts: Post[], prefix = 'No.'): Map<string, string> {
   const ordered = [...posts].sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf() || a.id.localeCompare(b.id));
-  return new Map(ordered.map((p, i) => [p.id, `No. ${i + 1}`]));
+  return new Map(ordered.map((p, i) => [p.id, `${prefix} ${i + 1}`]));
 }
 
 export function slugifyTag(tag: string): string {
@@ -24,8 +30,8 @@ export function slugifyTag(tag: string): string {
     .replace(/^-+|-+$/g, '');
 }
 
-export function formatDate(d: Date): string {
-  return d.toLocaleDateString('en-GB', {
+export function formatDate(d: Date, lang: Lang = 'en'): string {
+  return d.toLocaleDateString(lang === 'el' ? 'el-GR' : 'en-GB', {
     year: 'numeric',
     month: 'short',
     day: 'numeric',

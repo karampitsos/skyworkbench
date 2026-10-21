@@ -1,22 +1,23 @@
 ---
 import { Image } from 'astro:assets';
-import { url } from '../site';
-import { formatDate, type Post } from '../lib/posts';
+import { lurl, type Lang } from '../i18n';
+import { formatDate, postSlug, type Post } from '../lib/posts';
 
 interface Props {
   post: Post;
   no?: string;
+  lang?: Lang;
 }
-const { post, no } = Astro.props;
+const { post, no, lang = 'en' } = Astro.props;
 const { title, description, date, cover, coverAlt } = post.data;
 ---
 
-<a class:list={['register-row', cover && 'has-thumb']} href={url(`/posts/${post.id}/`)}>
+<a class:list={['register-row', cover && 'has-thumb']} href={lurl(lang, `/posts/${postSlug(post)}/`)}>
   <span class="no">{no}</span>
   <div>
     <h3>{title}</h3>
     <p>{description}</p>
   </div>
   {cover && <Image class="thumb" src={cover} alt={coverAlt} width={176} height={120} loading="lazy" />}
-  <time datetime={date.toISOString()}>{formatDate(date)}</time>
+  <time datetime={date.toISOString()}>{formatDate(date, lang)}</time>
 </a>

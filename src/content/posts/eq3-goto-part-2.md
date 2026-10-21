@@ -1,6 +1,6 @@
 ---
 title: "Bresser EQ-3 to GoTo, part 2: my own firmware, sidereal time and first light"
-description: "Two spinning motors don't make a GoTo mount. The firmware I wrote so KStars/Ekos can point, track and guide my motorised EQ-3, and the first images it took."
+description: "Two spinning motors don't make a GoTo mount. The Arduino firmware that lets KStars/Ekos point, track and guide my EQ-3, and its first images."
 section: builds
 date: 2026-10-20
 draft: false
@@ -29,6 +29,8 @@ At the end of [part 1](../eq3-goto-part-1/) I had a Bresser EQ-3 with a motor an
 
 This part is the brain: a small program (firmware) running on the Arduino. With it, I click a target in a planetarium program and the telescope points there, follows the sky, and can be guided. Here is what it took, without the code details. If you want those, the full source is on GitHub: [eq3-goto-firmware](https://github.com/karampitsos/eq3-goto-firmware) (MIT license).
 
+Why not use [OnStep](https://github.com/hjd1964/OnStepX), the open-source GoTo firmware whose kits inspired the mechanics in part 1? It supports the CNC Shield V3, but only on an ESP32 board (the WeMos D1 R32), not on my Arduino UNO R4 WiFi. So instead of changing boards, I wrote my own.
+
 I wrote the firmware together with Claude Code, an AI coding assistant, and then tested and tuned it in the field, under the real sky.
 
 ![The motorised Bresser EQ-3 with a Newtonian telescope on a terrace at night, cables running to a laptop on a table](../../assets/posts/eq3-goto/setup-terrace.jpg)
@@ -43,9 +45,21 @@ I wrote the firmware together with Claude Code, an AI coding assistant, and then
 
 ## How the pieces fit together
 
-```
-KStars/Ekos (laptop)  →  USB cable  →  Arduino (my firmware)  →  two stepper drivers  →  two motors
-```
+<figure class="chain" role="img" aria-label="Signal chain: KStars/Ekos and the INDI LX200 GPS driver on the laptop send LX200 commands over USB to the Arduino firmware on the mount, which drives two TMC2209 stepper drivers and two NEMA 17 motors that turn the RA and Dec axes through belts.">
+<div class="group"><span class="where">laptop</span>
+<div class="box"><b>KStars / Ekos</b><span>planetarium, plate solving, guiding</span></div>
+<div class="link">“go to M27”</div>
+<div class="box"><b>INDI driver: LX200 GPS</b><span>turns that into LX200 commands</span></div>
+</div>
+<div class="link">USB cable · 9600 baud · e.g. <code>:MS#</code></div>
+<div class="group"><span class="where">on the mount</span>
+<div class="box"><b>Arduino UNO R4 WiFi</b><span>my firmware: sidereal time, GoTo, tracking</span></div>
+<div class="link">step + direction pulses</div>
+<div class="box"><b>2 × TMC2209 drivers</b><span>on the CNC Shield V3</span></div>
+<div class="link">motor current</div>
+<div class="box"><b>2 × NEMA 17 motors</b><span>belts (3:1) turn the RA and Dec axes</span></div>
+</div>
+</figure>
 
 The laptop does the hard astronomy: star catalogues, working out where the camera is looking from a photo (plate solving), and guiding. The Arduino only answers simple questions ("where are you pointing?") and carries out simple orders ("go there", "move north slowly").
 

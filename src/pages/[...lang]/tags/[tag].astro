@@ -1,0 +1,59 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PostCard from '../../../components/PostCard.astro';
+import { getPosts, groupByTag, entryNumbers } from '../../../lib/posts';
+import { LANGS, lurl, t } from '../../../i18n';
+
+export async function getStaticPaths() {
+  const tagsIn = async (lang: (typeof LANGS)[number]) => groupByTag(await getPosts(lang));
+  const english = await tagsIn('en');
+  const greek = await tagsIn('el');
+  const paths = [];
+  for (const lang of LANGS) {
+    const all = await getPosts(lang);
+    const numbers = entryNumbers(all, t(lang).entry);
+    for (const [slug, tag] of groupByTag(all)) {
+      paths.push({
+        params: { lang: lang === 'el' ? 'el' : undefined, tag: slug },
+        props: { lang, label: tag.label, posts: tag.posts, numbers, translated: english.has(slug) && greek.has(slug) },
+      });
+    }
+  }
+  return paths;
+}
+
+const { lang, label, posts, numbers, translated } = Astro.props;
+const T = t(lang);
+const S = {
+  en: {
+    title: `Tag: ${label}`,
+    description: `Posts tagged ${label} on Sky Workbench.`,
+    eyebrow: 'Tag',
+    count: `${posts.length} ${posts.length === 1 ? 'post' : 'posts'}`,
+    all: 'all tags',
+  },
+  el: {
+    title: `Ετικέτα: ${label}`,
+    description: `Άρθρα με την ετικέτα ${label} στο Sky Workbench.`,
+    eyebrow: 'Ετικέτα',
+    count: `${posts.length} ${posts.length === 1 ? 'άρθρο' : 'άρθρα'}`,
+    all: 'όλες οι ετικέτες',
+  },
+}[lang];
+---
+
+<Base title={S.title} description={S.description} lang={lang} translated={translated}>
+  <div class="wrap">
+    <div class="page-title">
+      <div class="eyebrow">{S.eyebrow}</div>
+      <h1>{label}</h1>
+      <div class="dim" aria-hidden="true"></div>
+      <p>{S.count} · <a href={lurl(lang, '/tags/')}>{S.all}</a></p>
+    </div>
+    <section class="section">
+      <div class="paper notebook">
+        {posts.map((p) => <PostCard post={p} no={numbers.get(p.id)} lang={lang} />)}
+      </div>
+    </section>
+  </div>
+</Base>

@@ -1,0 +1,42 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { getPosts, groupByTag } from '../../../lib/posts';
+import { langPaths, toLang, lurl, t } from '../../../i18n';
+
+export const getStaticPaths = langPaths;
+
+const lang = toLang(Astro.params.lang);
+const T = t(lang);
+const S = {
+  en: { description: 'Browse Sky Workbench posts by topic.', eyebrow: 'Browse', empty: 'No tags yet.' },
+  el: { description: 'Τα άρθρα του Sky Workbench ανά θέμα.', eyebrow: 'Περιήγηση', empty: 'Δεν υπάρχουν ετικέτες ακόμα.' },
+}[lang];
+const tags = [...groupByTag(await getPosts(lang)).entries()].sort(
+  (a, b) => b[1].posts.length - a[1].posts.length || a[1].label.localeCompare(b[1].label),
+);
+---
+
+<Base title={T.tags} description={S.description} lang={lang}>
+  <div class="wrap">
+    <div class="page-title">
+      <div class="eyebrow">{S.eyebrow}</div>
+      <h1>{T.tags}</h1>
+      <div class="dim" aria-hidden="true"></div>
+    </div>
+    <section class="paper page-sheet">
+      {
+        tags.length ? (
+          <div class="meta" style="gap:10px">
+            {tags.map(([slug, t]) => (
+              <a class="pill" href={lurl(lang, `/tags/${slug}/`)}>
+                {t.label} · {t.posts.length}
+              </a>
+            ))}
+          </div>
+        ) : (
+          <p class="empty">{S.empty}</p>
+        )
+      }
+    </section>
+  </div>
+</Base>

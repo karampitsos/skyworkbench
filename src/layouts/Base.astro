@@ -1,33 +1,47 @@
 ---
 import '../styles/global.css';
 import { SITE, url } from '../site';
+import { t, lurl, neutralPath, type Lang } from '../i18n';
 
 interface Props {
   title?: string;
   description?: string;
   type?: 'website' | 'article';
   noindex?: boolean;
-  ogImage?: string; // path under /og/, without extension; defaults to the site card
+  lang?: Lang;
+  /** Set to false when this page has no translation (the language switch then goes to the other home page). */
+  translated?: boolean;
+  ogImage?: string; // path under /og/, without extension; defaults to the site card for the language
 }
 
-const { title, description = SITE.description, type = 'website', noindex = false, ogImage = 'default' } = Astro.props;
-const fullTitle = title ? `${title} · ${SITE.name}` : `${SITE.name} — ${SITE.tagline}`;
+const { lang = 'en', translated = true } = Astro.props;
+const T = t(lang);
+const { title, description = T.siteDescription, type = 'website', noindex = false, ogImage = lang === 'el' ? 'el/default' : 'default' } = Astro.props;
+const fullTitle = title ? `${title} · ${SITE.name}` : `${SITE.name} — ${T.tagline}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogUrl = new URL(url(`/og/${ogImage}.png`), Astro.site);
-const path = Astro.url.pathname;
-const is = (p: string) => (p === '/' ? path === url('/') : path.startsWith(url(p)));
+const neutral = neutralPath(Astro.url.pathname);
+const other: Lang = lang === 'el' ? 'en' : 'el';
+const alternates = translated
+  ? { en: new URL(lurl('en', neutral), Astro.site), el: new URL(lurl('el', neutral), Astro.site) }
+  : null;
+const is = (p: string) => (p === '/' ? neutral === '/' : neutral.startsWith(p));
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    <meta name="author" content="Nikolaos Karampitsos" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
-    <link rel="alternate" type="application/rss+xml" title={SITE.name} href={url('/rss.xml')} />
+    {alternates && <link rel="alternate" hreflang="en" href={alternates.en} />}
+    {alternates && <link rel="alternate" hreflang="el" href={alternates.el} />}
+    {alternates && <link rel="alternate" hreflang="x-default" href={alternates.en} />}
+    <link rel="alternate" type="application/rss+xml" title={SITE.name} href={lurl(lang, '/rss.xml')} />
     <link rel="sitemap" href={url('/sitemap-index.xml')} />
     {noindex && <meta name="robots" content="noindex" />}
     <slot name="head" />
@@ -37,6 +51,7 @@ const is = (p: string) => (p === '/' ? path === url('/') : path.startsWith(url(p
     <meta property="og:description" content={description} />
     <meta property="og:type" content={type} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === 'el' ? 'el_GR' : 'en_GB'} />
     <meta property="og:image" content={ogUrl} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -54,7 +69,7 @@ const is = (p: string) => (p === '/' ? path === url('/') : path.startsWith(url(p
   <body>
     <header class="site-header">
       <div class="wrap">
-        <a class="brand" href={url('/')} aria-label={`${SITE.name} home`}>
+        <a class="brand" href={lurl(lang, '/')} aria-label={`${SITE.name} ${T.home}`}>
           <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="12" cy="12" r="9.5" fill="none" stroke="var(--accent)" stroke-width="1.6" />
             <circle cx="12" cy="12" r="6" fill="none" stroke="currentColor" stroke-width="1" opacity=".55" />
@@ -63,10 +78,11 @@ const is = (p: string) => (p === '/' ? path === url('/') : path.startsWith(url(p
           Sky <span class="hand">Workbench</span>
         </a>
         <nav class="nav" aria-label="Main">
-          <a href={url('/')} aria-current={is('/') || is('/posts') ? 'page' : undefined}>Log</a>
-          <a href={url('/about/')} aria-current={is('/about') ? 'page' : undefined}>About</a>
-          <a href={url('/search/')} aria-current={is('/search') ? 'page' : undefined}>Search</a>
-          <button id="night-toggle" type="button" title="Toggle red night-vision mode" aria-pressed="false"><span class="dot" aria-hidden="true"></span>Red light</button>
+          <a href={lurl(lang, '/')} aria-current={is('/') || is('/posts') ? 'page' : undefined}>{T.navLog}</a>
+          <a href={lurl(lang, '/about/')} aria-current={is('/about') ? 'page' : undefined}>{T.navAbout}</a>
+          <a href={lurl(lang, '/search/')} aria-current={is('/search') ? 'page' : undefined}>{T.navSearch}</a>
+          <button id="night-toggle" type="button" title={T.redLightTitle} aria-pressed="false"><span class="dot" aria-hidden="true"></span>{T.redLight}</button>
+          <a class="lang-switch" href={lurl(other, translated ? neutral : '/')} hreflang={other} lang={other} title={T.switchTitle}>{T.switchLabel}</a>
         </nav>
       </div>
     </header>
@@ -77,11 +93,11 @@ const is = (p: string) => (p === '/' ? path === url('/') : path.startsWith(url(p
 
     <footer class="site-footer">
       <div class="wrap">
-        <span>© {new Date().getFullYear()} {SITE.name} · <span class="hand">clear skies!</span></span>
+        <span>© {new Date().getFullYear()} {SITE.name} · <span class="hand">{T.clearSkies}</span></span>
         <span>
-          <a href={url('/about/')}>About</a>{' · '}
-          <a href={url('/tags/')}>Tags</a>{' · '}
-          <a href={url('/rss.xml')}>RSS</a>{' · '}
+          <a href={lurl(lang, '/about/')}>{T.navAbout}</a>{' · '}
+          <a href={lurl(lang, '/tags/')}>{T.tags}</a>{' · '}
+          <a href={lurl(lang, '/rss.xml')}>RSS</a>{' · '}
           <a href={url('/sitemap-index.xml')}>Sitemap</a>
         </span>
       </div>

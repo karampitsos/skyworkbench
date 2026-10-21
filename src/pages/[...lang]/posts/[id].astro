@@ -1,0 +1,115 @@
+---
+import { render } from 'astro:content';
+import { getImage } from 'astro:assets';
+import { SITE, url } from '../../../site';
+import Base from '../../../layouts/Base.astro';
+import { getPosts, formatDate, slugifyTag, entryNumbers, postSlug } from '../../../lib/posts';
+import { LANGS, lurl, t } from '../../../i18n';
+
+export async function getStaticPaths() {
+  const english = new Set((await getPosts('en')).map(postSlug));
+  const greek = new Set((await getPosts('el')).map(postSlug));
+  const paths = [];
+  for (const lang of LANGS) {
+    const posts = await getPosts(lang);
+    const numbers = entryNumbers(posts, t(lang).entry);
+    for (const post of posts) {
+      const slug = postSlug(post);
+      paths.push({
+        params: { lang: lang === 'el' ? 'el' : undefined, id: slug },
+        props: { post, lang, no: numbers.get(post.id), translated: english.has(slug) && greek.has(slug) },
+      });
+    }
+  }
+  return paths;
+}
+
+const { post, lang, no, translated } = Astro.props;
+const T = t(lang);
+const { Content, headings } = await render(post);
+const d = post.data;
+const hasSpec = d.goal || d.cost || d.time || d.difficulty || d.materials.length;
+
+const abs = (path: string) => new URL(path, Astro.site).toString();
+// Google wants images at least 1200 px wide: the cover photo plus the 1200×630 social card.
+const images = [abs(url(`/og/${post.id}.png`))];
+if (d.cover) images.unshift(abs((await getImage({ src: d.cover, width: 1200, format: 'jpg' })).src));
+
+const author = {
+  '@type': 'Person',
+  name: 'Nikolaos Karampitsos',
+  url: abs(lurl(lang, '/about/')),
+  sameAs: ['https://github.com/karampitsos'],
+};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: d.title,
+  description: d.description,
+  image: images,
+  author,
+  publisher: { '@type': 'Organization', name: SITE.name, url: abs(lurl(lang, '/'))},
+  datePublished: d.date.toISOString(),
+  dateModified: d.date.toISOString(),
+  inLanguage: lang,
+  keywords: d.tags.join(', '),
+  mainEntityOfPage: abs(Astro.url.pathname),
+};
+---
+
+<Base title={d.title} description={d.description} type="article" lang={lang} translated={translated} ogImage={post.id}>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} slot="head" is:inline />
+  <article class="wrap post" data-pagefind-body>
+    <div class="paper sheet">
+    <header>
+      <div class="eyebrow">{no} · <time datetime={d.date.toISOString()}>{formatDate(d.date, lang)}</time></div>
+      <h1>{d.title}</h1>
+      <div class="dim" aria-hidden="true"></div>
+      <p class="desc">{d.description}</p>
+    </header>
+
+    {
+      hasSpec && (
+        <aside class="titleblock" aria-label={T.projectSummary}>
+          {d.goal && (<div class="cell"><span class="label">{T.goal}</span><div class="v">{d.goal}</div></div>)}
+          {(d.difficulty || d.time || d.cost) && (
+            <div class="row">
+              {d.difficulty && (<div class="cell"><span class="label">{T.difficulty}</span><div class="v">{T.levels[d.difficulty]}</div></div>)}
+              {d.time && (<div class="cell"><span class="label">{T.time}</span><div class="v">{d.time}</div></div>)}
+              {d.cost && (<div class="cell"><span class="label">{T.cost}</span><div class="v">{d.cost}</div></div>)}
+            </div>
+          )}
+          {d.materials.length > 0 && (
+            <div class="cell">
+              <span class="label">{T.materials}</span>
+              <ol>{d.materials.map((m) => <li>{m}</li>)}</ol>
+            </div>
+          )}
+        </aside>
+      )
+    }
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    {
+      d.files.length > 0 && (
+        <section class="downloads">
+          <h2>{T.files}</h2>
+          {d.files.map((f) => <a href={f.href}>{f.label}</a>)}
+        </section>
+      )
+    }
+
+    {
+      d.tags.length > 0 && (
+        <div class="meta" style="margin-top:28px">
+          {d.tags.map((tag) => <a class="pill" href={lurl(lang, `/tags/${slugifyTag(tag)}/`)}>#{tag}</a>)}
+        </div>
+      )
+    }
+    </div>
+  </article>
+</Base>
