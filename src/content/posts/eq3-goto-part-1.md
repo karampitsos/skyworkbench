@@ -4,8 +4,8 @@ description: "No upgrade kit exists for the Bresser EQ-3, so I motorised both ax
 section: builds
 date: 2026-10-20
 draft: false
-cover: "../../assets/posts/eq3-goto/both-axes.jpg"
-coverAlt: "The EQ-3 mount head with stepper motors and belts fitted to both axes"
+cover: "../../assets/posts/eq3-goto/mount-setup.jpg"
+coverAlt: "The motorised Bresser EQ-3 with the Newtonian telescope: stepper motors and belts on both axes, and the CNC Shield strapped to a tripod leg"
 tags: ["Bresser EQ-3", "GoTo", "Stepper motors", "Arduino", "Mount upgrade", "DIY"]
 files:
   - label: "Bresser EQ-3 mount"

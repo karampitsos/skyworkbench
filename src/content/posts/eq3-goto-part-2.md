@@ -4,8 +4,8 @@ description: "Two spinning motors don't make a GoTo mount. The Arduino firmware 
 section: builds
 date: 2026-10-20
 draft: false
-cover: "../../assets/posts/eq3-goto/bubble-nebula.jpg"
-coverAlt: "The Bubble Nebula, a faint reddish arc around a bright star"
+cover: "../../assets/posts/eq3-goto/m27-dumbbell.jpg"
+coverAlt: "The Dumbbell Nebula, M27: a green, apple-core-shaped cloud with reddish edges in a dense star field"
 tags: ["Bresser EQ-3", "GoTo", "Arduino", "LX200", "KStars", "Ekos", "Firmware", "Astrophotography"]
 files:
   - label: "Firmware source code on GitHub (MIT license)"

@@ -4,8 +4,8 @@ description: "Δεν υπάρχει κιτ αναβάθμισης για τη Br
 section: builds
 date: 2026-10-20
 draft: false
-cover: "../../../assets/posts/eq3-goto/both-axes.jpg"
-coverAlt: "Η κεφαλή της EQ-3 με βηματικά μοτέρ και ιμάντες και στους δύο άξονες"
+cover: "../../../assets/posts/eq3-goto/mount-setup.jpg"
+coverAlt: "Η μοτοροποιημένη Bresser EQ-3 με το νευτώνειο τηλεσκόπιο: βηματικά μοτέρ και ιμάντες και στους δύο άξονες, και το CNC Shield δεμένο σε ένα πόδι του τρίποδα"
 tags: ["Bresser EQ-3", "GoTo", "Stepper motors", "Arduino", "Mount upgrade", "DIY"]
 files:
   - label: "Στήριξη Bresser EQ-3"

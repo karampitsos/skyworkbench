@@ -4,8 +4,8 @@ description: "Δύο μοτέρ δεν κάνουν μια στήριξη GoTo. 
 section: builds
 date: 2026-10-20
 draft: false
-cover: "../../../assets/posts/eq3-goto/bubble-nebula.jpg"
-coverAlt: "Το νεφέλωμα Φυσαλίδα, ένα αμυδρό κοκκινωπό τόξο γύρω από ένα λαμπρό άστρο"
+cover: "../../../assets/posts/eq3-goto/m27-dumbbell.jpg"
+coverAlt: "Το νεφέλωμα Αλτήρας, M27: ένα πράσινο σύννεφο σε σχήμα κουκουτσιού μήλου με κοκκινωπές άκρες, σε πυκνό αστρικό πεδίο"
 tags: ["Bresser EQ-3", "GoTo", "Arduino", "LX200", "KStars", "Ekos", "Firmware", "Astrophotography"]
 files:
   - label: "Ο πηγαίος κώδικας του firmware στο GitHub (άδεια MIT)"
