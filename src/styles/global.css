@@ -469,4 +469,5 @@ a.pill:hover { color: var(--text); border-color: var(--accent); }
 .chain .link::before { content: ''; width: 2px; height: 14px; background: var(--accent); }
 .chain .link::after { content: ''; border: 7px solid transparent; border-top: 9px solid var(--accent); border-bottom: 0; }
 :root[data-night='red'] .chain .box { background: #140000; border-color: currentColor; box-shadow: none; }
-.prose figure.compact video { max-width: 360px; margin: 0 auto; }
+.prose figure.compact video,
+.prose figure.compact img { max-width: 360px; margin: 0 auto; }

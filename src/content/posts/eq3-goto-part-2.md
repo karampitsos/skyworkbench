@@ -23,13 +23,25 @@ files:
     href: "https://github.com/karampitsos/eq3-goto-firmware"
   - label: "AccelStepper library"
     href: "https://www.airspayce.com/mikem/arduino/AccelStepper/"
+  - label: "KStars and Ekos (free planetarium and observatory software)"
+    href: "https://kstars.kde.org/"
+  - label: "INDI (drivers for telescopes and cameras)"
+    href: "https://www.indilib.org/"
+  - label: "Siril (free image stacking and processing)"
+    href: "https://siril.org/"
 ---
 
-At the end of [part 1](../eq3-goto-part-1/) I had a Bresser EQ-3 with a motor and a belt on each axis, and two motors that turned when I told them to. That's not a GoTo mount yet. The mount still had no idea where it was pointing, and nothing told it where to go.
+At the end of [part 1](../eq3-goto-part-1/) I had a [Bresser EQ-3](https://www.bresser.com/p/bresser-eq-3-telescope-mount-incl.-tripod-black-4964450) with a motor and a belt on each axis, and two motors that turned when I told them to. That's not a GoTo mount yet. The mount still had no idea where it was pointing, and nothing told it where to go.
 
 This part is the brain: a small program (firmware) running on the Arduino. With it, I click a target in a planetarium program and the telescope points there, follows the sky, and can be guided. Here is what it took, without the code details. If you want those, the full source is on GitHub: [eq3-goto-firmware](https://github.com/karampitsos/eq3-goto-firmware) (MIT license).
 
 Why not use [OnStep](https://github.com/hjd1964/OnStepX), the open-source GoTo firmware whose kits inspired the mechanics in part 1? It supports the CNC Shield V3, but only on an ESP32 board (the WeMos D1 R32), not on my Arduino UNO R4 WiFi. So instead of changing boards, I wrote my own.
+
+**Update (October 2026):** OnStep now runs on my board. I added support for the Arduino UNO R4 WiFi to OnStep, and the project accepted the change ([pull request #132](https://github.com/hjd1964/OnStepX/pull/132)). I've used it on this mount under the sky, and GoTo, syncing and tracking all work with [Ekos](https://kstars-docs.kde.org/en/user_manual/ekos.html).
+
+If you're building something similar, I'd now start with OnStep rather than my own firmware. It's been developed for years and is used on many home-built mounts. It already does much of what's on my "doesn't do yet" list at the end of this post, like safety limits, a park position and meridian flips. It also works with most astronomy software, and has an active community to ask when you get stuck. My firmware is still useful as a small, readable example of how a GoTo mount works.
+
+Which board? If you already have an UNO R4 WiFi and a CNC Shield V3, like me, OnStep now works on them. The CNC Shield also fits the [WeMos D1 R32](https://www.skroutz.gr/s/58806029/Ttgo-Esp32-Wifi-Bluetooth-Board-4mb-Flash-Uno-D1-R32-Development-Board.html), a cheap ESP32 board with the same shape as an Arduino UNO, which OnStep has supported for a long time. If you're buying from scratch, the simplest ready-made option is the [FYSETC E4](https://github.com/FYSETC/FYSETC-E4), an ESP32 board with four motor drivers already on it.
 
 I wrote the firmware together with Claude Code, an AI coding assistant, and then tested and tuned it in the field, under the real sky.
 
@@ -111,7 +123,7 @@ After power-on the mount doesn't know where it's pointing, so my routine is:
 
 ## First light
 
-These were taken with my Bresser Newtonian and a ZWO ASI662MC, a small planetary camera. The mount was **tracking only, with no guiding** for these shots, which is why each frame is short: 15 seconds or less, before small tracking errors start to stretch the stars. Many short frames were then stacked in Siril.
+These were taken with my Bresser Newtonian and a ZWO ASI662MC, a small planetary camera. The mount was **tracking only, with no guiding** for these shots, which is why each frame is short: 15 seconds or less, before small tracking errors start to stretch the stars. Many short frames were then stacked in [Siril](https://siril.org/).
 
 ![The Dumbbell Nebula, M27: a green, apple-core-shaped cloud with reddish edges in a dense star field](../../assets/posts/eq3-goto/m27-dumbbell.jpg)
 
