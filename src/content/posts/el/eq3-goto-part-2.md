@@ -1,5 +1,5 @@
 ---
-title: "Bresser EQ-3 σε GoTo, μέρος 2: δικό μου firmware, αστρικός χρόνος και πρώτο φως"
+title: "Bresser EQ-3 σε GoTo, μέρος 2: από μοτέρ που γυρίζουν σε στήριξη GoTo"
 description: "Δύο μοτέρ δεν κάνουν μια στήριξη GoTo. Το firmware με το οποίο το KStars/Ekos στρέφει, παρακολουθεί και οδηγεί την EQ-3, και οι πρώτες εικόνες."
 section: builds
 date: 2026-10-20

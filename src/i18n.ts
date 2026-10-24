@@ -24,7 +24,7 @@ const UI = {
       "Nikos's logbook of astronomy adventures: telescope builds, code and data, shared with anyone curious to learn, try, or just enjoy the ride.",
     tagline: 'From the workbench to the stars.',
     home: 'home',
-    navLog: 'Log',
+    navLog: 'Logbook',
     navAbout: 'About',
     navSearch: 'Search',
     redLight: 'Red light',

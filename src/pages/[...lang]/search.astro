@@ -10,7 +10,6 @@ const S = {
   en: {
     title: 'Search',
     description: 'Search every post in the Sky Workbench logbook.',
-    eyebrow: 'look it up',
     intro: 'Search every post: parts, code, numbers, mistakes. It runs entirely in your browser.',
     noscript: 'Search needs JavaScript.',
     placeholder: 'Search the logbook… e.g. belt, NEMA 17, pulley',
@@ -18,7 +17,6 @@ const S = {
   el: {
     title: 'Αναζήτηση',
     description: 'Αναζήτηση σε όλα τα άρθρα του ημερολογίου του Sky Workbench.',
-    eyebrow: 'ψάξ’ το',
     intro: 'Αναζήτηση σε όλα τα άρθρα: εξαρτήματα, κώδικας, αριθμοί, λάθη. Τρέχει εξ ολοκλήρου στον browser σου.',
     noscript: 'Η αναζήτηση χρειάζεται JavaScript.',
     placeholder: 'Αναζήτηση στο ημερολόγιο… π.χ. ιμάντας, NEMA 17, τροχαλία',
@@ -30,9 +28,7 @@ const S = {
   <link slot="head" href={url('/pagefind/pagefind-ui.css')} rel="stylesheet" />
   <div class="wrap">
     <div class="page-title">
-      <div class="eyebrow">{S.eyebrow}</div>
       <h1>{S.title}</h1>
-      <div class="dim" aria-hidden="true"></div>
       <p>{S.intro}</p>
     </div>
     <section class="paper page-sheet">

@@ -1,5 +1,5 @@
 ---
-title: "Bresser EQ-3 to GoTo, part 2: my own firmware, sidereal time and first light"
+title: "Bresser EQ-3 to GoTo, part 2: from spinning motors to a GoTo mount"
 description: "Two spinning motors don't make a GoTo mount. The Arduino firmware that lets KStars/Ekos point, track and guide my EQ-3, and its first images."
 section: builds
 date: 2026-10-20

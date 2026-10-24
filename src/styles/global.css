@@ -29,7 +29,7 @@
   --paper-2: #f3e8d2;
   --ink: #2b2118;
   --ink-muted: #6e5c49;
-  --ink-accent: #b0502a; /* terracotta */
+  --ink-accent: #a44a27; /* terracotta */
   --ink-link: #94400f;
   --ink-line: #e2d2b5;
   --rule: rgba(70, 120, 185, .2); /* notebook ruling */
@@ -194,7 +194,7 @@ h1, h2, h3 { font-family: var(--display); font-weight: 600; font-optical-sizing:
 .nav a:hover, .nav button:hover { color: var(--text); }
 .nav .dot { display: inline-block; width: 8px; height: 8px; margin-right: 5px; border-radius: 50%; background: #ff5a48; box-shadow: 0 0 6px #ff5a48; vertical-align: 1px; }
 .nav .lang-switch { font-family: var(--mono); font-size: 13px; letter-spacing: .06em; margin-left: 4px; border: 1px solid var(--line-strong); border-radius: 4px; padding: 3px 7px; }
-.nav a[aria-current='page'] { color: var(--text); text-decoration: underline wavy var(--accent) 1.5px; text-underline-offset: 6px; }
+.nav a[aria-current='page'] { color: var(--text); }
 
 /* ---------- Hero ---------- */
 .hero {
@@ -230,12 +230,12 @@ h1, h2, h3 { font-family: var(--display); font-weight: 600; font-optical-sizing:
 .note .title { font-size: 1.9rem; font-weight: 700; color: #2a3550; display: inline-block; background: url('../assets/textures/squiggle.svg') no-repeat left bottom / 100% 9px; padding-bottom: 6px; }
 .note .eq { display: block; margin: 4px 0; }
 .note .eq.big { font-size: 1.75rem; }
-.note .circled { display: inline-block; padding: 0 10px; border: 2px solid #b0502a; border-radius: 50% 45% 55% 48% / 60% 50% 55% 45%; color: #b0502a; font-weight: 700; }
-.note .aside { color: #b0502a; font-size: 1.3rem; }
-.note a { color: #b0502a; }
+.note .circled { display: inline-block; padding: 0 10px; border: 2px solid #a44a27; border-radius: 50% 45% 55% 48% / 60% 50% 55% 45%; color: #a44a27; font-weight: 700; }
+.note .aside { color: #a44a27; font-size: 1.3rem; }
+.note a { color: #a44a27; }
 .note svg { display: block; width: 100%; height: auto; margin: 6px 0 4px; }
 .note .pen { fill: none; stroke: #2a3550; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-.note .pen-red { fill: none; stroke: #b0502a; stroke-width: 1.5; stroke-linecap: round; }
+.note .pen-red { fill: none; stroke: #a44a27; stroke-width: 1.5; stroke-linecap: round; }
 .note .pen-text { fill: #2a3550; font-family: var(--hand); font-size: 20px; font-weight: 700; }
 .note .tape {
   position: absolute; top: -12px; left: 50%; width: 110px; height: 26px; transform: translateX(-50%) rotate(3deg);
