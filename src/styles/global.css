@@ -8,7 +8,13 @@
 @import '@fontsource/ibm-plex-mono/500.css';
 /* Greek fallbacks: Fraunces and Caveat have no Greek letters. unicode-range means these only download on Greek pages. */
 @import '@fontsource-variable/literata/wght.css';
-@import '@fontsource/mynerve/greek-400.css';
+@import '@fontsource/playpen-sans/greek-400.css';
+@import '@fontsource/playpen-sans/greek-500.css';
+@import '@fontsource/playpen-sans/greek-700.css';
+/* Latin digits and punctuation for the Greek handwriting; only fetched on Greek pages, where Playpen comes first. */
+@import '@fontsource/playpen-sans/latin-400.css';
+@import '@fontsource/playpen-sans/latin-500.css';
+@import '@fontsource/playpen-sans/latin-700.css';
 
 /*
   The workbench: a wooden table under a warm lamp, with paper on it.
@@ -38,13 +44,15 @@
   --radius: 6px;
   --display: 'Fraunces Variable', 'Fraunces', 'Literata Variable', Georgia, serif;
   --serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
-  --hand: 'Caveat', 'Mynerve', 'Segoe Print', 'Bradley Hand', cursive;
+  --hand: 'Caveat', 'Playpen Sans', 'Segoe Print', 'Bradley Hand', cursive;
   --mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
   --max: 1080px;
   --prose: 68ch;
   --shadow: 0 1px 1px rgba(40, 20, 5, .25), 0 4px 10px rgba(30, 15, 5, .25), 0 18px 40px rgba(20, 10, 2, .35);
   color-scheme: light;
 }
+/* Greek pages: one handwriting for letters and digits alike, so dates and numbers don't switch fonts mid-line. */
+html[lang='el'] { --hand: 'Playpen Sans', 'Caveat', cursive; }
 
 /* Header and footer are dark walnut bars with cream text. */
 .site-header, .site-footer {
@@ -67,38 +75,6 @@
   background: url('../assets/textures/paper-noise.webp'), var(--paper);
   border-radius: 3px;
   box-shadow: var(--shadow);
-}
-
-/* Night-vision mode: everything dim red, no wood, no bright paper. */
-:root[data-night='red'] {
-  --text: #ff9a8a;
-  --muted: #b3544a;
-  --accent: #ff5a48;
-  --accent-2: #ff7a66;
-  --line: rgba(255, 90, 70, .2);
-  --line-strong: rgba(255, 90, 70, .4);
-  --surface: rgba(255, 60, 40, .05);
-  --rule: rgba(255, 90, 70, .14);
-  --margin-rule: rgba(255, 90, 70, .35);
-  color-scheme: dark;
-}
-:root[data-night='red'] .site-header, :root[data-night='red'] .site-footer {
-  --text: #ff9a8a;
-  --muted: #b3544a;
-  --accent: #ff5a48;
-  --accent-2: #ff7a66;
-}
-:root[data-night='red'] .paper {
-  --text: #ff9a8a;
-  --muted: #b3544a;
-  --accent: #ff5a48;
-  --accent-2: #ff7a66;
-  --line: rgba(255, 90, 70, .2);
-  --line-strong: rgba(255, 90, 70, .4);
-  --surface: rgba(255, 60, 40, .05);
-  color-scheme: dark;
-  background: #170404;
-  box-shadow: 0 0 0 1px rgba(255, 90, 70, .18);
 }
 
 * { box-sizing: border-box; }
@@ -124,7 +100,6 @@ body {
   display: flex;
   flex-direction: column;
 }
-:root[data-night='red'] body { background: #0e0202; }
 
 main { flex: 1; }
 
@@ -165,7 +140,6 @@ h1, h2, h3 { font-family: var(--display); font-weight: 600; font-optical-sizing:
   top: 0;
   z-index: 20;
 }
-:root[data-night='red'] .site-header { background: rgba(14, 2, 2, .92); }
 .site-header .wrap { display: flex; align-items: center; gap: 18px; height: 60px; }
 .brand {
   display: inline-flex;
@@ -179,7 +153,7 @@ h1, h2, h3 { font-family: var(--display); font-weight: 600; font-optical-sizing:
   text-decoration: none;
 }
 .brand svg { align-self: center; flex: none; }
-.brand .hand { font-size: 1.6rem; color: var(--accent); font-weight: 700; line-height: 1; }
+.brand .hand { font-family: 'Caveat', cursive; font-size: 1.6rem; color: var(--accent); font-weight: 700; line-height: 1; }
 .nav { display: flex; gap: 4px; margin-left: auto; align-items: center; flex-wrap: wrap; }
 .nav a, .nav button {
   font-family: var(--serif);
@@ -192,7 +166,6 @@ h1, h2, h3 { font-family: var(--display); font-weight: 600; font-optical-sizing:
   text-decoration: none;
 }
 .nav a:hover, .nav button:hover { color: var(--text); }
-.nav .dot { display: inline-block; width: 8px; height: 8px; margin-right: 5px; border-radius: 50%; background: #ff5a48; box-shadow: 0 0 6px #ff5a48; vertical-align: 1px; }
 .nav .lang-switch { font-family: var(--mono); font-size: 13px; letter-spacing: .06em; margin-left: 4px; border: 1px solid var(--line-strong); border-radius: 4px; padding: 3px 7px; }
 .nav a[aria-current='page'] { color: var(--text); }
 
@@ -209,6 +182,9 @@ h1, h2, h3 { font-family: var(--display); font-weight: 600; font-optical-sizing:
 
 /* ---------- A handwritten note on graph paper (used in posts) ---------- */
 .note-figure { margin: 2.2em 0; }
+/* Playpen (Greek) runs wider than Caveat, so the Greek note writes a little smaller. */
+html[lang='el'] .note { font-size: 1.25rem; }
+html[lang='el'] .note .eq.big { font-size: 1.45rem; }
 .note {
   position: relative;
   z-index: 2;
@@ -241,9 +217,6 @@ h1, h2, h3 { font-family: var(--display); font-weight: 600; font-optical-sizing:
   position: absolute; top: -12px; left: 50%; width: 110px; height: 26px; transform: translateX(-50%) rotate(3deg);
   background: rgba(245, 232, 190, .7); box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
 }
-:root[data-night='red'] .note { background: #170404; color: #ff9a8a; transform: none; }
-:root[data-night='red'] .note .title, :root[data-night='red'] .note .pen-text { color: #ff9a8a; fill: #ff9a8a; }
-:root[data-night='red'] .note .pen { stroke: #ff9a8a; }
 
 .btn {
   display: inline-block;
@@ -261,7 +234,6 @@ h1, h2, h3 { font-family: var(--display); font-weight: 600; font-optical-sizing:
 .btn:hover { border-color: var(--accent); }
 .btn.primary { background: #f1b25e; color: #2b1a08; border-color: #f1b25e; box-shadow: 0 3px 10px rgba(0, 0, 0, .3); }
 .btn.primary:hover { background: #f6c27a; }
-:root[data-night='red'] .btn.primary { background: #ff5a48; border-color: #ff5a48; color: #190000; }
 
 /* ---------- Sections ---------- */
 .section { padding: 28px 0; }
@@ -291,7 +263,6 @@ a.card:hover { transform: rotate(0) translateY(-3px); }
 .card h3 { margin: 4px 0 6px; font-size: 1.2rem; line-height: 1.3; }
 .card p { margin: 0; color: var(--muted); font-size: 1rem; }
 .card .icon { font-family: var(--hand); font-size: 1.6rem; color: var(--accent); line-height: 1; }
-:root[data-night='red'] .card { --text: #ff9a8a; --muted: #b3544a; --accent: #ff5a48; background: #170404; border-top-color: #ff5a48; }
 
 .meta { font-size: 14px; color: var(--muted); display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
 .pill { font-size: 14px; padding: 2px 10px; border-radius: 999px; border: 1px solid var(--line-strong); color: var(--muted); text-decoration: none; background: var(--surface); }
@@ -305,7 +276,6 @@ a.pill:hover { color: var(--text); border-color: var(--accent); }
     url('../assets/textures/paper-noise.webp'),
     var(--paper);
 }
-:root[data-night='red'] .notebook { background: linear-gradient(90deg, transparent 0 74px, var(--margin-rule) 74px 75px, transparent 75px), #170404; }
 .notebook .heading { font-family: var(--hand); font-size: 2rem; font-weight: 700; color: var(--accent); padding: 0 24px 6px 92px; line-height: 1.1; }
 .register-row {
   display: grid;
@@ -325,7 +295,6 @@ a.pill:hover { color: var(--text); border-color: var(--accent); }
 .register-row:hover { background: rgba(255, 255, 255, .35); }
 .register-row:hover h3 { color: var(--accent); }
 .register-row:hover .thumb { transform: rotate(0) translateY(-2px); }
-:root[data-night='red'] .register-row:hover { background: rgba(255, 60, 40, .06); }
 .register-row .no { font-family: var(--hand); font-size: 1.3rem; font-weight: 700; color: var(--accent); text-align: center; }
 .register-row h3 { margin: 0 0 2px; font-size: 1.22rem; line-height: 1.3; transition: color .15s; }
 .register-row .when { font-family: var(--hand); font-size: 1.2rem; color: var(--muted); margin: 0 0 4px; }
@@ -339,7 +308,6 @@ a.pill:hover { color: var(--text); border-color: var(--accent); }
   content: ''; position: absolute; top: -13px; left: 50%; width: 130px; height: 28px; transform: translateX(-50%) rotate(-2deg);
   background: rgba(245, 232, 190, .72); box-shadow: 0 1px 2px rgba(0, 0, 0, .18);
 }
-:root[data-night='red'] .sheet::before { display: none; }
 .post header h1 { font-size: clamp(2rem, 4.6vw, 2.8rem); line-height: 1.12; margin: 6px 0 0; }
 .post header p.desc { color: var(--muted); font-size: 1.15rem; margin: 18px 0 0; font-style: italic; }
 
@@ -356,7 +324,6 @@ a.pill:hover { color: var(--text); border-color: var(--accent); }
 .titleblock .row { display: flex; flex-wrap: wrap; gap: 1px; }
 .titleblock .row .cell { flex: 1 1 150px; }
 .titleblock .cell { padding: 10px 16px 12px; background: color-mix(in srgb, var(--paper) 70%, white); }
-:root[data-night='red'] .titleblock .cell { background: #170404; }
 .titleblock .cell .label { display: block; margin-bottom: 1px; }
 .titleblock .cell .v { font-size: 1rem; }
 .titleblock ol { margin: 2px 0 0; padding-left: 0; list-style: none; counter-reset: bom; }
@@ -372,7 +339,6 @@ a.pill:hover { color: var(--text); border-color: var(--accent); }
 .prose blockquote { margin: 1.4em 0; padding: 4px 18px; border-left: 3px solid var(--accent); color: var(--muted); font-style: italic; }
 .prose code { font-family: var(--mono); font-size: .84em; background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; }
 .prose pre { background: #2b2118 !important; color: #f6ead6; border-radius: 4px; padding: 14px 16px; overflow-x: auto; font-size: .84rem; line-height: 1.55; }
-:root[data-night='red'] .prose pre { background: #0a0000 !important; color: #ff9a8a; }
 .prose pre code { background: none; border: 0; padding: 0; color: inherit; }
 .prose table { border-collapse: collapse; width: 100%; font-size: .98rem; margin: 1.4em 0; display: block; overflow-x: auto; }
 .prose th, .prose td { border-bottom: 1px solid var(--line); padding: 8px 12px; text-align: left; }
@@ -410,7 +376,6 @@ a.pill:hover { color: var(--text); border-color: var(--accent); }
 
 /* ---------- Footer ---------- */
 .site-footer { margin-top: 60px; padding: 26px 0 40px; color: var(--muted); font-size: 15px; border-top: 1px solid rgba(255, 220, 170, .12); background: rgba(38, 21, 9, .92); }
-:root[data-night='red'] .site-footer { background: none; }
 .site-footer .wrap { display: flex; gap: 20px; flex-wrap: wrap; justify-content: space-between; align-items: baseline; }
 .site-footer .hand { font-size: 1.5rem; color: var(--accent); }
 .site-footer a { color: var(--muted); }
@@ -447,7 +412,6 @@ a.pill:hover { color: var(--text); border-color: var(--accent); }
 #search .pagefind-ui__result-excerpt { color: var(--muted); font-size: 1rem; line-height: 1.55; }
 #search mark { background: linear-gradient(transparent 35%, rgba(241, 178, 94, .55) 35% 90%, transparent 90%); color: inherit; padding: 0 1px; }
 #search .pagefind-ui__button { font-family: var(--serif); font-weight: 600; color: var(--text); background: var(--surface); border-color: var(--line-strong); }
-:root[data-night='red'] #search mark { background: rgba(255, 90, 70, .25); }
 
 /* About me: a round portrait beside the text. */
 .about-me { display: flex; align-items: center; gap: 22px; }
@@ -492,6 +456,9 @@ a.pill:hover { color: var(--text); border-color: var(--accent); }
   .note { font-size: 1.25rem; padding: 22px 18px 18px; }
   .note .title { font-size: 1.6rem; }
   .note .eq.big { font-size: 1.45rem; }
+  html[lang='el'] .note { font-size: 1.05rem; }
+  html[lang='el'] .note .title { font-size: 1.4rem; }
+  html[lang='el'] .note .eq.big { font-size: 1.2rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -515,6 +482,5 @@ a.pill:hover { color: var(--text); border-color: var(--accent); }
 .chain .link { display: flex; flex-direction: column; align-items: center; padding: 4px 0; font-family: var(--hand); font-size: 1.2rem; color: var(--accent); line-height: 1.15; text-align: center; }
 .chain .link::before { content: ''; width: 2px; height: 14px; background: var(--accent); }
 .chain .link::after { content: ''; border: 7px solid transparent; border-top: 9px solid var(--accent); border-bottom: 0; }
-:root[data-night='red'] .chain .box { background: #140000; border-color: currentColor; box-shadow: none; }
 .prose figure.compact video,
 .prose figure.compact img { max-width: min(100%, 360px); box-sizing: border-box; margin: 0 auto; }

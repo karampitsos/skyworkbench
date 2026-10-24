@@ -11,10 +11,11 @@ const fonts = [
   { name: 'Serif', data: font('source-serif-4', 'source-serif-4-latin-700-normal.woff'), weight: 700 as const },
   { name: 'Serif', data: font('source-serif-4', 'source-serif-4-latin-400-normal.woff'), weight: 400 as const },
   { name: 'Hand', data: font('caveat', 'caveat-latin-700-normal.woff'), weight: 700 as const },
-  // Greek cards: Caveat has no Greek, so Mynerve stands in for the handwriting.
+  // Greek cards: Caveat has no Greek, so Playpen Sans stands in for the handwriting.
   { name: 'SerifGreek', data: font('source-serif-4', 'source-serif-4-greek-700-normal.woff'), weight: 700 as const },
   { name: 'SerifGreek', data: font('source-serif-4', 'source-serif-4-greek-400-normal.woff'), weight: 400 as const },
-  { name: 'HandGreek', data: font('mynerve', 'mynerve-greek-400-normal.woff'), weight: 700 as const },
+  { name: 'HandGreek', data: font('playpen-sans', 'playpen-sans-greek-600-normal.woff'), weight: 700 as const },
+  { name: 'HandGreekLatin', data: font('playpen-sans', 'playpen-sans-latin-600-normal.woff'), weight: 700 as const },
 ];
 
 type Node = { type: string; props: Record<string, unknown> };
@@ -49,7 +50,7 @@ export async function renderOg({ title, eyebrow, description, cover }: OgCard): 
     h('div', { flex: 1, padding: '34px 64px 42px' }, [
       h('div', { flex: 1, background: '#faf3e3', boxShadow: '0 10px 30px rgba(42,26,14,.35)' }, [
         h('div', { flex: 1, flexDirection: 'column', justifyContent: 'center', padding: narrow ? '0 40px 0 56px' : '0 64px' }, [
-        eyebrow ? h('div', { fontFamily: 'Hand, HandGreek', fontWeight: 700, fontSize: 40, color: '#a8472a', marginBottom: 14 }, eyebrow) : null,
+        eyebrow ? h('div', { fontFamily: /[\u0370-\u03ff]/.test(eyebrow) ? 'HandGreek, HandGreekLatin' : 'Hand, HandGreek', fontWeight: 700, fontSize: 40, color: '#a8472a', marginBottom: 14 }, eyebrow) : null,
         h('div', { fontFamily: 'Serif, SerifGreek', fontWeight: 700, fontSize: size, lineHeight: 1.12, color: '#2a1a0e' }, title),
         description
           ? h('div', { fontFamily: 'Serif, SerifGreek', fontWeight: 400, fontSize: narrow ? 26 : 30, lineHeight: 1.35, color: '#5b4632', marginTop: 22 }, clip(description, narrow ? 90 : 120))

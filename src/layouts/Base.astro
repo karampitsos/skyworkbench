@@ -60,11 +60,6 @@ const is = (p: string) => (p === '/' ? neutral === '/' : neutral.startsWith(p));
     <meta name="twitter:image" content={ogUrl} />
     <meta name="theme-color" content="#261509" />
 
-    <script is:inline>
-      try {
-        if (localStorage.getItem('night') === 'red') document.documentElement.dataset.night = 'red';
-      } catch (e) {}
-    </script>
   </head>
   <body>
     <header class="site-header">
@@ -81,7 +76,6 @@ const is = (p: string) => (p === '/' ? neutral === '/' : neutral.startsWith(p));
           <a href={lurl(lang, '/')} aria-current={is('/') || is('/posts') ? 'page' : undefined}>{T.navLog}</a>
           <a href={lurl(lang, '/about/')} aria-current={is('/about') ? 'page' : undefined}>{T.navAbout}</a>
           <a href={lurl(lang, '/search/')} aria-current={is('/search') ? 'page' : undefined}>{T.navSearch}</a>
-          <button id="night-toggle" type="button" title={T.redLightTitle} aria-pressed="false"><span class="dot" aria-hidden="true"></span>{T.redLight}</button>
           <a class="lang-switch" href={lurl(other, translated ? neutral : '/')} hreflang={other} lang={other} title={T.switchTitle}>{T.switchLabel}</a>
         </nav>
       </div>
@@ -103,22 +97,5 @@ const is = (p: string) => (p === '/' ? neutral === '/' : neutral.startsWith(p));
       </div>
     </footer>
 
-    <script is:inline>
-      (function () {
-        var btn = document.getElementById('night-toggle');
-        if (!btn) return;
-        function sync() {
-          btn.setAttribute('aria-pressed', document.documentElement.dataset.night === 'red' ? 'true' : 'false');
-        }
-        sync();
-        btn.addEventListener('click', function () {
-          var on = document.documentElement.dataset.night === 'red';
-          if (on) delete document.documentElement.dataset.night;
-          else document.documentElement.dataset.night = 'red';
-          try { localStorage.setItem('night', on ? '' : 'red'); } catch (e) {}
-          sync();
-        });
-      })();
-    </script>
   </body>
 </html>
