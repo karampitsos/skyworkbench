@@ -3,7 +3,7 @@ import { render } from 'astro:content';
 import { getImage } from 'astro:assets';
 import { SITE, url } from '../../../site';
 import Base from '../../../layouts/Base.astro';
-import { getPosts, formatDate, slugifyTag, entryNumbers, postSlug } from '../../../lib/posts';
+import { getPosts, formatDate, slugifyTag, entryNumbers, postSlug, readingMinutes } from '../../../lib/posts';
 import { LANGS, lurl, t } from '../../../i18n';
 
 export async function getStaticPaths() {
@@ -13,22 +13,35 @@ export async function getStaticPaths() {
   for (const lang of LANGS) {
     const posts = await getPosts(lang);
     const numbers = entryNumbers(posts, t(lang).entry);
-    for (const post of posts) {
+    const ordered = [...posts].reverse(); // oldest first, the logbook order
+    const link = (p?: (typeof posts)[number]) =>
+      p && { title: p.data.title, href: lurl(lang, `/posts/${postSlug(p)}/`), no: numbers.get(p.id) };
+    for (const [i, post] of ordered.entries()) {
       const slug = postSlug(post);
       paths.push({
         params: { lang: lang === 'el' ? 'el' : undefined, id: slug },
-        props: { post, lang, no: numbers.get(post.id), translated: english.has(slug) && greek.has(slug) },
+        props: {
+          post,
+          lang,
+          no: numbers.get(post.id),
+          translated: english.has(slug) && greek.has(slug),
+          prev: link(ordered[i - 1]),
+          next: link(ordered[i + 1]),
+        },
       });
     }
   }
   return paths;
 }
 
-const { post, lang, no, translated } = Astro.props;
+const { post, lang, no, translated, prev, next } = Astro.props;
 const T = t(lang);
 const { Content, headings } = await render(post);
 const d = post.data;
-const hasSpec = d.goal || d.cost || d.time || d.difficulty || d.materials.length;
+const hasSpec = Boolean(d.goal || d.cost || d.time || d.difficulty || d.materials.length);
+// "On this page" only pays off on long posts.
+const toc = headings.filter((h) => h.depth === 2);
+const minutes = readingMinutes(post);
 
 const abs = (path: string) => new URL(path, Astro.site).toString();
 // Google wants images at least 1200 px wide: the cover photo plus the 1200×630 social card.
@@ -39,7 +52,7 @@ const author = {
   '@type': 'Person',
   name: 'Nikolaos Karampitsos',
   url: abs(lurl(lang, '/about/')),
-  sameAs: ['https://github.com/karampitsos'],
+  sameAs: ['https://github.com/karampitsos', 'https://www.linkedin.com/in/nkarampitsos/'],
 };
 
 const jsonLd = {
@@ -63,11 +76,20 @@ const jsonLd = {
   <article class="wrap post" data-pagefind-body>
     <div class="paper sheet">
     <header>
-      <div class="eyebrow">{no} · <time datetime={d.date.toISOString()}>{formatDate(d.date, lang)}</time></div>
+      <div class="eyebrow">{no} · <time datetime={d.date.toISOString()}>{formatDate(d.date, lang)}</time> · {minutes} {T.minRead}</div>
       <h1>{d.title}</h1>
       <div class="dim" aria-hidden="true"></div>
       <p class="desc">{d.description}</p>
     </header>
+
+    {
+      toc.length >= 4 && (
+        <details class="toc" data-pagefind-ignore>
+          <summary>{T.onThisPage}</summary>
+          <ol>{toc.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol>
+        </details>
+      )
+    }
 
     {
       hasSpec && (
@@ -110,6 +132,16 @@ const jsonLd = {
         </div>
       )
     }
+
+    <nav class="post-nav" data-pagefind-ignore>
+      {prev ? (
+        <a class="prev" href={prev.href}><span class="label">← {T.previous}</span><span class="t">{prev.no} · {prev.title}</span></a>
+      ) : <span />}
+      {next ? (
+        <a class="next" href={next.href}><span class="label">{T.next} →</span><span class="t">{next.no} · {next.title}</span></a>
+      ) : <span />}
+    </nav>
+    <p class="back-to-log" data-pagefind-ignore><a href={lurl(lang, '/#log')}>{T.backToLog}</a></p>
     </div>
   </article>
 </Base>

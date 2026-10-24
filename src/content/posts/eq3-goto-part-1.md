@@ -7,20 +7,6 @@ draft: false
 cover: "../../assets/posts/eq3-goto/both-axes.jpg"
 coverAlt: "The EQ-3 mount head with stepper motors and belts fitted to both axes"
 tags: ["Bresser EQ-3", "GoTo", "Stepper motors", "Arduino", "Mount upgrade", "DIY"]
-goal: "Put a stepper motor on each axis of a Bresser EQ-3 mount so it can be computer-controlled, without buying a new mount."
-difficulty: medium
-time: "Spread over a few months of spare time"
-cost: "About €115 for the final build (€55 mechanics, €60 electronics); about €215 spent in total including detours and tools"
-materials:
-  - "2 × NEMA 17 stepper motors, 0.9°/step (400 steps/rev), model 42BYGHM809"
-  - "2 × NEMA 17 stepper motor mounts"
-  - "2 × GT2 timing pulleys, 20 teeth, 5 mm bore (motor side)"
-  - "2 × GT2 timing pulleys, 60 teeth, 6 mm bore (mount-axis side)"
-  - "GT2 timing belts: 188 mm (declination) and 180 mm (right ascension)"
-  - "V-slot gantry plate 20 mm (extension for the RA motor mount)"
-  - "M3/M4 bolts and nuts"
-  - "2 × TMC2209 stepper drivers (I tested first with an A4988 and a DRV8825)"
-  - "Arduino CNC Shield V3, Arduino UNO R4 WiFi and a 12 V 5 A power supply (see the electronics sections)"
 files:
   - label: "Bresser EQ-3 mount"
     href: "https://www.bresser.com/p/bresser-eq-3-telescope-mount-incl.-tripod-black-4964450"
@@ -71,13 +57,6 @@ It worked: the declination axis moved on command.
 <figure class="compact">
   <video controls muted playsinline preload="none" width="480" height="480" poster="/media/eq3-goto/first-axis-test-poster.jpg" src="/media/eq3-goto/first-axis-test.mp4"></video>
   <figcaption>First spin: the NEMA 17 turning the declination axis, then the test rig behind it: one stepper driver on a breadboard, controlled by a Raspberry Pi.</figcaption>
-</figure>
-
-**How the motor turns the mount.** The motor spins a small 20-tooth pulley, and the belt carries that to a 60-tooth pulley on the mount's slow-motion shaft: a 3:1 reduction. That shaft is a [worm](https://en.wikipedia.org/wiki/Worm_drive), a screw that meshes with a large gear wheel on the axis. Each full turn of the worm moves the wheel by just one tooth, so the axis turns slowly and precisely.
-
-<figure class="compact">
-  <img src="/media/eq3-goto/worm-gear.webp" width="480" height="342" loading="lazy" alt="Animation of a worm gear: a threaded shaft turning and slowly rotating a large toothed wheel beneath it">
-  <figcaption>A worm turning a gear wheel. Animation: <a href="https://commons.wikimedia.org/wiki/File:Worm_Gear.gif">Wikimedia Commons</a>, public domain.</figcaption>
 </figure>
 
 ## 3. The mechanics of the second axis (right ascension)
@@ -134,17 +113,66 @@ And for the drivers, I went back to my first choice: two **TMC2209**s, one per a
 The CNC Shield makes the wiring almost plug-and-play:
 
 1. **Shield on the Arduino.** It plugs straight onto the UNO's headers.
-2. **Microstep jumpers first.** Under each driver slot are three jumper pairs that set the microstepping. I run mine at 16 microsteps; the [TMC2209 datasheet](https://www.analog.com/en/products/tmc2209.html) has the table.
-3. **Drivers in their slots**, one per axis. With my firmware, Dec goes in Y and RA in Z (OnStep uses X for RA). Line up the driver's EN pin with the EN mark on the shield: a driver plugged in the wrong way round burns out.
+2. **Microstep jumpers first.** Under each driver slot are three pin pairs. Each [jumper](https://grobotronics.com/jumper-2-54mm-2-pin-blue.html) (a small 2.54 mm cap) connects a setting pin of the driver (MS1, MS2) to 5 V, and the combination picks the microstep mode. I run mine at 16; the [TMC2209 datasheet](https://www.analog.com/en/products/tmc2209.html) has the table.
+3. **Drivers in their slots**, one per axis. With OnStep, RA goes in X and Dec in Y (my own firmware used Z for RA). Line up the driver's EN pin with the EN mark on the shield: a driver plugged in the wrong way round burns out.
 4. **Motors on the 4-pin headers** next to each slot. If an axis turns the wrong way, flip the connector or reverse it in software.
 5. **Power into the blue screw terminal:** 12 V from the 5 A supply, minding + and −. This powers the motors only; the Arduino itself runs from USB.
 6. **Set the motor current** with the small potentiometer on each driver before the first run, so the motors stay cool without skipping steps.
 
-**What the microstep jumpers do.** A stepper motor normally moves in full steps: 400 per turn for mine. The driver can split each step into smaller *microsteps*. The [jumpers](https://grobotronics.com/jumper-2-54mm-2-pin-blue.html) (small 2.54 mm caps) set how finely: each one connects a setting pin on the driver (MS1, MS2) to 5 V, and the combination picks the mode. A TMC2209 offers 8, 16, 32 or 64 microsteps this way. More microsteps give smoother motion and finer positioning, which is what slow sidereal tracking needs. The cost is that the Arduino must send more step pulses for the same move, which limits how fast the mount can slew. 16 is a good balance, and the TMC2209 also smooths each microstep internally into 256 even finer ones.
-
 One rule above all: never plug or unplug a motor while the power is on. It can destroy the driver.
 
-## 5. What it cost
+## 5. From motor to sky: how precisely the axes turn
+
+The motor spins a small 20-tooth pulley, and the belt carries that to a 60-tooth pulley on the mount's slow-motion shaft: a 3:1 reduction. That shaft is a [worm](https://en.wikipedia.org/wiki/Worm_drive), a screw that meshes with a large gear wheel on the axis. Each full turn of the worm moves the wheel by just one tooth, so the axis turns slowly and precisely.
+
+<figure class="compact">
+  <img src="/media/eq3-goto/worm-gear.webp" width="480" height="342" loading="lazy" alt="Animation of a worm gear: a threaded shaft turning and slowly rotating a large toothed wheel beneath it">
+  <figcaption>A worm turning a gear wheel. Animation: <a href="https://commons.wikimedia.org/wiki/File:Worm_Gear.gif">Wikimedia Commons</a>, public domain.</figcaption>
+</figure>
+
+Every reduction in that chain makes the axis move in smaller steps. The motor has 400 full steps per turn, and the driver splits each into 16 *microsteps*, set by the jumpers from the wiring steps above. On the RA axis, one full turn then takes 400 × 16 × 3 (belt) × 140 (worm wheel): about 2.7 million microsteps, or 7,470 per degree. So each microstep turns the axis by roughly **half an arcsecond**.
+
+<figure class="note-figure" role="img" aria-label="A handwritten note working out how far one microstep turns the RA axis: 400 steps times 16 microsteps times 3 for the belt times 140 for the worm wheel is 2,688,000 microsteps per turn, so about 0.48 arcseconds each.">
+<div class="note">
+<span class="tape" aria-hidden="true"></span>
+<span class="title">How fine is one step?</span>
+<svg viewBox="0 0 340 168" aria-hidden="true">
+<rect class="pen" x="8" y="44" width="40" height="40" rx="3" />
+<path class="pen" d="M48 64 H55" />
+<circle class="pen" cx="64" cy="64" r="9" />
+<circle class="pen" cx="140" cy="64" r="26" />
+<path class="pen" d="M64 55 L140 38 M64 73 L140 90" />
+<path class="pen" d="M166 64 H196" />
+<rect class="pen" x="196" y="52" width="64" height="24" rx="4" />
+<path class="pen" d="M208 52 L200 76 M220 52 L212 76 M232 52 L224 76 M244 52 L236 76 M256 52 L248 76" />
+<circle class="pen" cx="228" cy="118" r="40" />
+<circle class="pen-red" cx="228" cy="118" r="43" stroke-dasharray="3 4" />
+<text class="pen-text" x="6" y="104" style="font-size:16px">motor</text>
+<text class="pen-text" x="50" y="40" style="font-size:16px">20T</text>
+<text class="pen-text" x="124" y="28" style="font-size:16px">60T</text>
+<text class="pen-text" x="84" y="110" style="font-size:16px">3 : 1</text>
+<text class="pen-text" x="212" y="44" style="font-size:16px">worm</text>
+<text class="pen-text" x="208" y="124" style="font-size:16px">140T</text>
+</svg>
+<span class="eq">400 steps</span>
+<span class="eq">× 16 microsteps</span>
+<span class="eq">× 3 (belt)</span>
+<span class="eq">× 140 (worm)</span>
+<span class="eq big">= 2,688,000 per turn</span>
+<span class="eq">360° = 1,296,000″</span>
+<span class="eq">1,296,000″ / 2,688,000</span>
+<span class="eq big">≈ <span class="circled">0.48″</span></span>
+<span class="aside">≈ half an arcsecond per step!</span>
+</div>
+</figure>
+
+Why 16 microsteps? A TMC2209 offers 8, 16, 32 or 64. More gives smoother motion, which slow sidereal tracking likes, but the Arduino then has to send more pulses for the same move, and that limits how fast the mount can slew. 16 is a good balance, and the TMC2209 smooths each microstep internally into 256 finer ones anyway.
+
+For comparison, Sky-Watcher's own [SynScan GoTo kit for the EQ3](https://eu.levenhuk.com/catalogue/accessories/telescope-accessories/telescope-mounts/sky-watcher-eq3-mount-synscan-upgrade-kit/) is quoted at about 0.3″, and the much bigger [EQ6-R Pro](https://www.robtics.nl/en/equatorial-eq/sky-watcher-eq6-r-pro-synscan-heavy-duty-computerised-go-to-mount) at about 0.14″. All of these are finer than the blur from the atmosphere on a typical night, about 2–4″. The real limit is elsewhere: small errors in the mount's own gears.
+
+One caveat: the 140 teeth on the worm wheel was my assumption at this point, not a measured number. In [part 2](../eq3-goto-part-2/#the-gears-grease-mesh-and-periodic-error) I regrease the gears and adjust how the worms mesh to reduce their periodic error. Measuring that error also confirms the 140 teeth: it repeats once per turn of the worm, about every 10 minutes.
+
+## 6. What it cost
 
 | | Cost |
 |---|---|
@@ -161,24 +189,14 @@ One rule above all: never plug or unplug a motor while the power is on. It can d
 
 The gap between the last two numbers is the price of learning: spare belts, the A4988 and DRV8825 I tested with before the TMC2209s, the breadboard and ESP32 detour, and tools like the multimeter. If you follow this build, you can skip most of that.
 
-## Where it ended up
+## Next: making it a GoTo mount
 
-This is the mount today, on my terrace: the Newtonian on the motorised EQ-3, a camera at the focuser, the electronics strapped to a tripod leg, and the laptop running the control software. How it got from two spinning motors to this is [part 2](../eq3-goto-part-2/).
+![The motorised Bresser EQ-3 indoors with the Newtonian telescope mounted: stepper motors and belts on both axes, and a red CNC Shield with its drivers strapped to a tripod leg](../../assets/posts/eq3-goto/mount-setup.jpg)
 
-![The motorised Bresser EQ-3 with a Newtonian telescope on a terrace at night, cables running to a laptop on a table](../../assets/posts/eq3-goto/setup-terrace.jpg)
+*The whole setup: both motors and belts on the mount head, and the CNC Shield with its drivers strapped to a tripod leg.*
 
-*The upgraded EQ-3, ready for a night of imaging.*
-
-And a first taste of what it can do. Both images are stacks of short exposures (15 seconds or less each), stacked in [Siril](https://siril.org/):
+At this point I had two motors that turned on command. A GoTo mount also needs to know where it's pointing, track the sky at the right speed, and talk to planetarium software. That's the subject of [part 2](../eq3-goto-part-2/): the software that turns these motors into a GoTo mount, and the first nights under the sky. A sneak peek:
 
 ![The Dumbbell Nebula, M27: a green, apple-core-shaped cloud with reddish edges in a dense star field](../../assets/posts/eq3-goto/m27-dumbbell.jpg)
 
-*M27, the Dumbbell Nebula.*
-
-![Saturn with its rings, small against a black background](../../assets/posts/eq3-goto/saturn.jpg)
-
-*Saturn, rings and all.*
-
-## Next: making it a GoTo mount
-
-At this point I had two motors that turned on command. A GoTo mount also needs to know where it's pointing, track the sky at the right speed, and talk to planetarium software. In [part 2](../eq3-goto-part-2/) I write my own firmware for the Arduino. It speaks the Meade LX200 protocol, so [KStars](https://kstars.kde.org/)/[Ekos](https://kstars-docs.kde.org/en/user_manual/ekos.html) can drive the mount for GoTo and autoguiding.
+*M27, the Dumbbell Nebula. More first-light images, and how they were taken, are in [part 2](../eq3-goto-part-2/#first-light).*

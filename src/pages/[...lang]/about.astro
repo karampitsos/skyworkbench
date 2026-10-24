@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
+import portrait from '../../assets/about/nikos.jpg';
 import { langPaths, toLang } from '../../i18n';
 
 export const getStaticPaths = langPaths;
@@ -9,25 +11,31 @@ const lang = toLang(Astro.params.lang);
 
 {
   lang === 'el' ? (
-    <Base title="Σχετικά" description="Τι είναι το Sky Workbench και πώς είναι δομημένα τα άρθρα του." lang="el">
+    <Base title="Σχετικά" description="Ποιος γράφει το Sky Workbench, τι είναι και πώς είναι δομημένα τα άρθρα του." lang="el">
       <div class="wrap">
         <div class="page-title">
-          <div class="eyebrow">Σχετικά</div>
-          <h1>Ένας πάγκος εργασίας για τον ουρανό</h1>
+          <h1>Σχετικά</h1>
           <div class="dim" aria-hidden="true" />
         </div>
         <section class="paper page-sheet prose">
           <p>
-            Το Sky Workbench είναι για όσους προτιμούν να φτιάξουν κάτι παρά να διαβάσουν γι’ αυτό. Κάθε άρθρο
-            γράφεται ώστε να μπορείς να το επαναλάβεις: ποιος ήταν ο στόχος, τι χρειάστηκε, τι έγινε και τα αρχεία
-            για να το δοκιμάσεις κι εσύ.
+            Το Sky Workbench είναι το ημερολόγιο των αστρονομικών μου περιπετειών: κατασκευές και αναβαθμίσεις
+            τηλεσκοπίων, ο κώδικας που τα κινεί και τα δεδομένα που μαζεύουν. Μοιράζομαι κάθε έργο, μαζί με τα λάθη,
+            για όποιον είναι περίεργος να μάθει από αυτό και να το δοκιμάσει κι ο ίδιος.
           </p>
+          <h2>Λίγα λόγια για μένα</h2>
+          <div class="about-me">
+            <Image src={portrait} alt="Πορτρέτο του Νίκου" width={200} height={200} class="portrait" />
+            <p>
+              Είμαι ο Νίκος (Νικόλαος Καραμπίτσος), μηχανικός λογισμικού και φυσικός. Είμαι ερασιτέχνης αστρονόμος
+              με πάθος για την αστρονομία, και θέλω να μοιραστώ αυτό το πάθος εδώ.
+            </p>
+          </div>
           <h2>Πώς είναι δομημένα τα άρθρα</h2>
           <p>
             Κάθε άρθρο είναι μια αριθμημένη εγγραφή στο ημερολόγιο (Αρ. 1, Αρ. 2, …) με τη σειρά που δημοσιεύτηκε.
-            Ξεκινά με μια κάρτα έργου: στόχος, δυσκολία, χρόνος, κόστος και λίστα υλικών. Ακολουθεί η ίδια η
-            κατασκευή ή η ανάλυση, μαζί με ό,τι πήγε στραβά, και σύνδεσμοι προς τα αρχεία και τον κώδικα για να το
-            επαναλάβεις.
+            Περιγράφει την ίδια την κατασκευή ή την ανάλυση, μαζί με ό,τι πήγε στραβά, τα υλικά και το κόστος, και
+            συνδέσμους προς τα αρχεία και τον κώδικα για να το επαναλάβεις.
           </p>
           <h2>Κόκκινη λειτουργία</h2>
           <p>
@@ -39,29 +47,37 @@ const lang = toLang(Astro.params.lang);
           <ul>
             <li>Email: <a href="mailto:nikolaos.karampitsos@gmail.com">nikolaos.karampitsos@gmail.com</a></li>
             <li>GitHub: <a href="https://github.com/karampitsos">github.com/karampitsos</a></li>
+            <li>LinkedIn: <a href="https://www.linkedin.com/in/nkarampitsos/">linkedin.com/in/nkarampitsos</a></li>
           </ul>
         </section>
       </div>
     </Base>
   ) : (
-    <Base title="About" description="What Sky Workbench is and how its posts are structured.">
+    <Base title="About" description="Who writes Sky Workbench, what it is, and how its posts are structured.">
       <div class="wrap">
         <div class="page-title">
-          <div class="eyebrow">About</div>
-          <h1>A workbench for the sky</h1>
+          <h1>About</h1>
           <div class="dim" aria-hidden="true" />
         </div>
         <section class="paper page-sheet prose">
           <p>
-            Sky Workbench is for people who would rather build the thing than read about it. Every post is
-            meant to be reproducible: what the goal was, what it took, what happened, and the files to try it
-            yourself.
+            Sky Workbench is my logbook of astronomy adventures: building and upgrading telescopes, the code that
+            drives them, and the data they collect. I share each project, mistakes included, so anyone curious can
+            learn from it and try it too.
           </p>
+          <h2>About me</h2>
+          <div class="about-me">
+            <Image src={portrait} alt="Portrait of Nikos" width={200} height={200} class="portrait" />
+            <p>
+              I'm Nikos (Nikolaos Karampitsos), a software engineer and physicist. I'm an amateur astronomer with a
+              passion for astronomy, and I want to share that passion here.
+            </p>
+          </div>
           <h2>How posts are structured</h2>
           <p>
-            Each post is a numbered entry in the logbook (No. 1, No. 2, …) in the order it was published. It opens
-            with a project card: the goal, difficulty, time, cost and a bill of materials. Then comes the build or the
-            analysis itself, including what went wrong, and links to the files and code so you can repeat it.
+            Each post is a numbered entry in the logbook (No. 1, No. 2, …) in the order it was published. It covers
+            the build or the analysis itself, including what went wrong, with the parts and costs, and links to the
+            files and code so you can repeat it.
           </p>
           <h2>Red mode</h2>
           <p>
@@ -73,6 +89,7 @@ const lang = toLang(Astro.params.lang);
           <ul>
             <li>Email: <a href="mailto:nikolaos.karampitsos@gmail.com">nikolaos.karampitsos@gmail.com</a></li>
             <li>GitHub: <a href="https://github.com/karampitsos">github.com/karampitsos</a></li>
+            <li>LinkedIn: <a href="https://www.linkedin.com/in/nkarampitsos/">linkedin.com/in/nkarampitsos</a></li>
           </ul>
         </section>
       </div>

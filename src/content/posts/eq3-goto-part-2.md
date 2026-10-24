@@ -7,17 +7,6 @@ draft: false
 cover: "../../assets/posts/eq3-goto/bubble-nebula.jpg"
 coverAlt: "The Bubble Nebula, a faint reddish arc around a bright star"
 tags: ["Bresser EQ-3", "GoTo", "Arduino", "LX200", "KStars", "Ekos", "Firmware", "Astrophotography"]
-goal: "Turn two motorised axes into a mount that knows where it points, tracks the sky and takes GoTo and guiding commands from planetarium software."
-difficulty: medium
-time: "Coding with Claude Code, then calibrating and testing in the field"
-cost: "€0 extra: same hardware as part 1, plus free software"
-materials:
-  - "The motorised EQ-3 from part 1 (2 × NEMA 17, TMC2209 drivers, CNC Shield V3)"
-  - "Arduino UNO R4 WiFi and a USB cable to the laptop"
-  - "Arduino IDE with the AccelStepper library"
-  - "A laptop running KStars/Ekos (INDI, LX200 GPS driver)"
-  - "ZWO ASI662MC camera (a small-sensor planetary camera) on my Bresser Newtonian"
-  - "Siril for stacking the images"
 files:
   - label: "Firmware source code on GitHub (MIT license)"
     href: "https://github.com/karampitsos/eq3-goto-firmware"
@@ -107,6 +96,16 @@ Everything depends on one number per axis: how many motor steps turn the mount b
 4. Correct the number and repeat until the GoTos land where they should.
 
 It's slow but very reliable, and the RA number I ended up with matches the gearing I worked out on paper.
+
+## The gears: grease, mesh and periodic error
+
+Good motors can't make up for the mount's own gears, and mine needed attention.
+
+- **Grease.** I opened both axes, cleaned out the old grease, and regreased the worms and wheels with Super Lube synthetic grease with Syncolon (PTFE). For the cleaning I followed this video, made for a much bigger mount but the same idea: [AP1200GTO Regrease Project](https://www.youtube.com/watch?v=R7s2kTzFNF4).
+- **Mesh.** Both worms sat too loosely against their wheels, which gave severe backlash: every time an axis changed direction, it rocked before it started to move. The screws on each worm housing set how firmly the worm presses into the wheel. I adjusted them until the play was gone but the axis still turned without binding.
+- **Periodic error.** No worm is perfectly round and centred, so the axis runs slightly fast, then slightly slow, once per turn of the worm. Before the regreasing the error was so large that the stars streaked out of the frame, so I couldn't measure it. Afterwards I measured it with PHD2. It repeated about every 10 minutes, just as expected for a 140-tooth wheel (a sidereal day ÷ 140 ≈ 615 s), which confirmed the assumption from part 1. But even after the new grease and the mesh adjustment, the swing was still several arcminutes.
+
+That is the real limit of this mount, and why my frames are 15 seconds or shorter. The way past it is autoguiding, which corrects the drift as it happens, or periodic error correction in the firmware, which OnStep supports.
 
 ## Moving by hand and guiding
 

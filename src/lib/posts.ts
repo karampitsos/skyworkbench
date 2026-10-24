@@ -22,6 +22,12 @@ export function entryNumbers(posts: Post[], prefix = 'No.'): Map<string, string>
   return new Map(ordered.map((p, i) => [p.id, `${prefix} ${i + 1}`]));
 }
 
+/** Reading time at ~200 words a minute, ignoring link targets and HTML tags. */
+export function readingMinutes(post: Post): number {
+  const text = (post.body ?? '').replace(/\]\([^)]*\)/g, ']').replace(/<[^>]+>/g, ' ');
+  return Math.max(1, Math.round(text.split(/\s+/).filter(Boolean).length / 200));
+}
+
 export function slugifyTag(tag: string): string {
   return tag
     .toLowerCase()

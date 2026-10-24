@@ -21,8 +21,8 @@ export function neutralPath(pathname: string): string {
 const UI = {
   en: {
     siteDescription:
-      'Hands-on astronomy for people who would rather build the thing than read about it: reproducible telescope builds, code and data, with the files to try it.',
-    tagline: 'Hacking the sky, one arcsecond at a time.',
+      "Nikos's logbook of astronomy adventures: telescope builds, code and data, shared with anyone curious to learn, try, or just enjoy the ride.",
+    tagline: 'From the workbench to the stars.',
     home: 'home',
     navLog: 'Log',
     navAbout: 'About',
@@ -40,13 +40,18 @@ const UI = {
     cost: 'Cost',
     materials: 'Bill of materials',
     files: 'Files',
+    onThisPage: 'On this page',
+    minRead: 'min read',
+    previous: 'Previous',
+    next: 'Next',
+    backToLog: '← Logbook',
     projectSummary: 'Project summary',
     levels: { easy: 'easy', medium: 'medium', hard: 'hard' },
   },
   el: {
     siteDescription:
-      'Αστρονομία στην πράξη, για όσους προτιμούν να φτιάξουν κάτι παρά να διαβάσουν γι’ αυτό: κατασκευές και κώδικας, με τα αρχεία για να τα δοκιμάσεις.',
-    tagline: 'Χακάροντας τον ουρανό, ένα δευτερόλεπτο τόξου τη φορά.',
+      'Το ημερολόγιο των αστρονομικών περιπετειών του Νίκου: κατασκευές τηλεσκοπίων, κώδικας και δεδομένα, για όποιον θέλει να μάθει, να δοκιμάσει ή να απολαύσει.',
+    tagline: 'Από τον πάγκο εργασίας στα αστέρια.',
     home: 'αρχική',
     navLog: 'Ημερολόγιο',
     navAbout: 'Σχετικά',
@@ -64,6 +69,11 @@ const UI = {
     cost: 'Κόστος',
     materials: 'Υλικά',
     files: 'Αρχεία',
+    onThisPage: 'Σε αυτή τη σελίδα',
+    minRead: 'λεπτά ανάγνωσης',
+    previous: 'Προηγούμενο',
+    next: 'Επόμενο',
+    backToLog: '← Ημερολόγιο',
     projectSummary: 'Σύνοψη έργου',
     levels: { easy: 'εύκολο', medium: 'μέτριο', hard: 'δύσκολο' },
   },
