@@ -509,6 +509,28 @@ html[lang='el'] .register-row .when { font-size: 1rem; }
 .prose figure { margin: 1.8em 0; }
 .prose video { display: block; width: 100%; height: auto; background: #000; padding: 8px; box-shadow: var(--shadow); border-radius: 2px; }
 .prose figcaption { text-align: center; font-family: var(--hand); font-size: 1.35rem; color: var(--muted); margin-top: .5em; line-height: 1.25; }
+/* Measurement chart in posts: data points in the accent colour over a faint grid, labels in handwriting. */
+.prose figure.pe-chart { margin: 2em 0; }
+.pe-chart svg { display: block; width: 100%; max-width: 640px; height: auto; margin: 0 auto; }
+.pe-chart .pe-grid { fill: none; stroke: var(--line); stroke-width: 1; }
+.pe-chart .pe-zero { fill: none; stroke: var(--line-strong); stroke-width: 1.2; }
+.pe-chart .pe-dot { fill: var(--accent); opacity: .85; }
+.pe-chart .pe-fit { fill: none; stroke: var(--text); stroke-width: 2.2; stroke-linecap: round; }
+.pe-chart .pe-dec { fill: none; stroke: var(--muted); stroke-width: 1.6; stroke-dasharray: 5 4; }
+.pe-chart .pe-span, .pe-chart .pe-arrow { fill: none; stroke: var(--text); stroke-width: 1.2; opacity: .7; }
+.pe-chart .pe-tick { font-family: var(--mono); font-size: 13px; fill: var(--muted); }
+.pe-chart .pe-label, .pe-chart .pe-key { font-family: var(--hand); font-size: 18px; fill: var(--muted); }
+.pe-chart .pe-note { font-family: var(--hand); font-size: 20px; fill: var(--accent); }
+html[lang='el'] .pe-chart .pe-label, html[lang='el'] .pe-chart .pe-key { font-size: 14px; }
+html[lang='el'] .pe-chart .pe-note { font-size: 15px; }
+/* Phones: the chart shrinks to about half size, so its text grows to stay readable. */
+@media (max-width: 640px) {
+  .pe-chart .pe-tick { font-size: 19px; }
+  .pe-chart .pe-label, .pe-chart .pe-key { font-size: 24px; }
+  .pe-chart .pe-note { font-size: 26px; }
+  html[lang='el'] .pe-chart .pe-label, html[lang='el'] .pe-chart .pe-key { font-size: 20px; }
+  html[lang='el'] .pe-chart .pe-note { font-size: 20px; }
+}
 /* Signal-chain diagram in posts: boxes top to bottom, grouped by where they run. */
 .prose figure.chain { max-width: 460px; margin: 2em auto; }
 .chain .group { border: 1.5px dashed var(--line-strong); border-radius: 10px; padding: 6px 16px 16px; }

@@ -356,7 +356,7 @@ Why 16 microsteps? A TMC2209 offers 8, 16, 32 or 64. More gives smoother motion,
 
 For comparison, Sky-Watcher's own [SynScan GoTo kit for the EQ3](https://eu.levenhuk.com/catalogue/accessories/telescope-accessories/telescope-mounts/sky-watcher-eq3-mount-synscan-upgrade-kit/) is quoted at about 0.3″, and the much bigger [EQ6-R Pro](https://www.robtics.nl/en/equatorial-eq/sky-watcher-eq6-r-pro-synscan-heavy-duty-computerised-go-to-mount) at about 0.14″. All of these are finer than the blur from the atmosphere on a typical night, about 2–4″. The real limit is elsewhere: small errors in the mount's own gears.
 
-One caveat: the 140 teeth on the worm wheel was my assumption at this point, not a measured number. In [part 2](../eq3-goto-part-2/#the-gears-grease-mesh-and-periodic-error) I regrease the gears and adjust how the worms mesh to reduce their periodic error. Measuring that error also confirms the 140 teeth: it repeats once per turn of the worm, about every 10 minutes.
+One caveat: the 140 teeth on the worm wheel was my assumption at this point, not a measured number. In [part 2](../eq3-goto-part-2/#the-gears-grease-mesh-and-periodic-error) I regrease the gears and adjust how the worms mesh to reduce their periodic error. The tracking there also confirms the 140 teeth: the mount follows the sky at the rate they imply, to about 1%.
 
 ## 6. What it cost
 
