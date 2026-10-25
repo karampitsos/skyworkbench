@@ -5,16 +5,14 @@ import { formatDate, postSlug, readingMinutes, type Post } from '../lib/posts';
 
 interface Props {
   post: Post;
-  no?: string;
   lang?: Lang;
 }
-const { post, no, lang = 'en' } = Astro.props;
+const { post, lang = 'en' } = Astro.props;
 const { title, description, date, cover, coverAlt } = post.data;
 const T = t(lang);
 ---
 
 <a class:list={['register-row', cover && 'has-thumb']} href={lurl(lang, `/posts/${postSlug(post)}/`)}>
-  <span class="no">{no}</span>
   <div class="body">
     <h3>{title}</h3>
     <div class="when"><time datetime={date.toISOString()}>{formatDate(date, lang)}</time> · {readingMinutes(post)} {T.minRead}</div>

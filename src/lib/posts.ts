@@ -16,12 +16,6 @@ export async function getPosts(lang: Lang = 'en'): Promise<Post[]> {
   return all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf() || b.id.localeCompare(a.id));
 }
 
-/** Logbook entry numbers in publication order, keyed by post id: the first post is "No. 1". */
-export function entryNumbers(posts: Post[], prefix = 'No.'): Map<string, string> {
-  const ordered = [...posts].sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf() || a.id.localeCompare(b.id));
-  return new Map(ordered.map((p, i) => [p.id, `${prefix} ${i + 1}`]));
-}
-
 /** Reading time at ~200 words a minute, ignoring link targets and HTML tags. */
 export function readingMinutes(post: Post): number {
   const text = (post.body ?? '').replace(/\]\([^)]*\)/g, ']').replace(/<[^>]+>/g, ' ');

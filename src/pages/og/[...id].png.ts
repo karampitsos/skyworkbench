@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import type { APIRoute, GetStaticPaths } from 'astro';
-import { getPosts, formatDate, entryNumbers } from '../../lib/posts';
+import { getPosts, formatDate } from '../../lib/posts';
 import { renderOg, type OgCard } from '../../lib/og';
 import { LANGS, t } from '../../i18n';
 
@@ -23,11 +23,10 @@ export const getStaticPaths = (async () => {
   for (const lang of LANGS) {
     const T = t(lang);
     const posts = await getPosts(lang);
-    const numbers = entryNumbers(posts, T.entry);
     for (const p of posts) {
       cards.push({
         params: { id: p.id },
-        props: { card: { title: p.data.title, eyebrow: `${numbers.get(p.id)} · ${formatDate(p.data.date, lang)}`, description: p.data.description, cover: p.data.cover ? coverPath(p.filePath) : undefined } },
+        props: { card: { title: p.data.title, eyebrow: formatDate(p.data.date, lang), description: p.data.description, cover: p.data.cover ? coverPath(p.filePath) : undefined } },
       });
     }
     cards.push({ params: { id: lang === 'el' ? 'el/default' : 'default' }, props: { card: { title: T.tagline, description: DEFAULT_DESCRIPTION[lang] } } });

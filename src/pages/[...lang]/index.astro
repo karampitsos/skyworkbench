@@ -1,7 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import PostCard from '../../components/PostCard.astro';
-import { getPosts, entryNumbers } from '../../lib/posts';
+import { getPosts } from '../../lib/posts';
 import { langPaths, toLang, lurl, t } from '../../i18n';
 
 export const getStaticPaths = langPaths;
@@ -9,21 +9,20 @@ export const getStaticPaths = langPaths;
 const lang = toLang(Astro.params.lang);
 const T = t(lang);
 const posts = await getPosts(lang);
-const numbers = entryNumbers(posts, T.entry);
 
 const S = {
   en: {
     lead: "I'm Nikos, a software engineer and physicist. Sky Workbench is my logbook of astronomy adventures, from telescope builds to code and data, shared with anyone curious: to learn from, to try, or just to enjoy the ride.",
-    open: 'Open the logbook ↓',
+    open: 'See the projects ↓',
     about: 'About me',
-    logbook: 'Logbook',
+    logbook: 'Projects',
     empty: 'No. 1 is on the bench. Coming soon.',
   },
   el: {
     lead: 'Είμαι ο Νίκος, μηχανικός λογισμικού και φυσικός. Το Sky Workbench είναι το ημερολόγιο των αστρονομικών μου περιπετειών, από κατασκευές τηλεσκοπίων μέχρι κώδικα και δεδομένα, για όποιον είναι περίεργος: για να μάθει, να δοκιμάσει ή απλώς να απολαύσει το ταξίδι.',
-    open: 'Άνοιξε το ημερολόγιο ↓',
+    open: 'Δες τα projects ↓',
     about: 'Σχετικά με μένα',
-    logbook: 'Ημερολόγιο',
+    logbook: 'Projects',
     empty: 'Το Αρ. 1 είναι στον πάγκο. Έρχεται σύντομα.',
   },
 }[lang];
@@ -45,7 +44,7 @@ const S = {
         <div class="heading">{S.logbook}</div>
         {
           posts.length ? (
-            posts.map((p) => <PostCard post={p} no={numbers.get(p.id)} lang={lang} />)
+            posts.map((p) => <PostCard post={p} lang={lang} />)
           ) : (
             <p class="empty">{S.empty}</p>
           )

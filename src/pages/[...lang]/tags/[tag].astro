@@ -1,7 +1,7 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import PostCard from '../../../components/PostCard.astro';
-import { getPosts, groupByTag, entryNumbers } from '../../../lib/posts';
+import { getPosts, groupByTag } from '../../../lib/posts';
 import { LANGS, lurl, t } from '../../../i18n';
 
 export async function getStaticPaths() {
@@ -11,18 +11,17 @@ export async function getStaticPaths() {
   const paths = [];
   for (const lang of LANGS) {
     const all = await getPosts(lang);
-    const numbers = entryNumbers(all, t(lang).entry);
     for (const [slug, tag] of groupByTag(all)) {
       paths.push({
         params: { lang: lang === 'el' ? 'el' : undefined, tag: slug },
-        props: { lang, label: tag.label, posts: tag.posts, numbers, translated: english.has(slug) && greek.has(slug) },
+        props: { lang, label: tag.label, posts: tag.posts, translated: english.has(slug) && greek.has(slug) },
       });
     }
   }
   return paths;
 }
 
-const { lang, label, posts, numbers, translated } = Astro.props;
+const { lang, label, posts, translated } = Astro.props;
 const T = t(lang);
 const S = {
   en: {
@@ -47,12 +46,11 @@ const S = {
     <div class="page-title">
       <div class="eyebrow">{S.eyebrow}</div>
       <h1>{label}</h1>
-      <div class="dim" aria-hidden="true"></div>
       <p>{S.count} · <a href={lurl(lang, '/tags/')}>{S.all}</a></p>
     </div>
     <section class="section">
       <div class="paper notebook">
-        {posts.map((p) => <PostCard post={p} no={numbers.get(p.id)} lang={lang} />)}
+        {posts.map((p) => <PostCard post={p} lang={lang} />)}
       </div>
     </section>
   </div>
