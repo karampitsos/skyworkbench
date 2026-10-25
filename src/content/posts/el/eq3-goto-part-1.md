@@ -247,13 +247,15 @@ files:
 
 Σχεδόν όλα τα εξαρτήματα τα αγόρασα από το [Grobotronics](https://grobotronics.com/), ένα κατάστημα ηλεκτρονικών στην Ελλάδα. Οι σύνδεσμοι των εξαρτημάτων σε αυτό το άρθρο οδηγούν στις σελίδες των προϊόντων τους (οι οδηγοί TMC2209 οδηγούν σε σελίδα σύγκρισης τιμών στο Skroutz). Κανένας δεν είναι σύνδεσμος affiliate.
 
-Τα μηχανικά είναι το μοτέρ NEMA 17, η βάση, οι τροχαλίες 20T και 60T και ένας ιμάντας σε κάθε άξονα, συν την πλάκα V-slot και τους επιπλέον ιμάντες στην πλευρά του RA· όλα έχουν σύνδεσμο στις ενότητες παραπάνω.
-
 | | Κόστος |
 |---|---|
-| Μηχανικά, άξονας απόκλισης (μοτέρ, βάση, δύο τροχαλίες, ιμάντας) | €25,40 |
-| Μηχανικά, άξονας ορθής αναφοράς (τα ίδια, συν την πλάκα V-slot και οι επιπλέον ιμάντες) | €29,48 |
-| **Μηχανικά, και οι δύο άξονες** | **≈ €55** |
+| [Βηματικό NEMA 17, 0,9° (42BYGHM809)](https://grobotronics.com/42byghm809-4.8kg.cm-400-steps-rev.html), 2 × €16,90 | €33,80 |
+| [Βάση μοτέρ NEMA 17](https://grobotronics.com/stepper-motor-mount-nema-17.html), 2 × €1,90 | €3,80 |
+| Τροχαλίες GT2, [20T](https://grobotronics.com/aluminum-gt2-timing-pulley-20-tooth.html) + [60T](https://grobotronics.com/aluminum-gt2-timing-pulley-60t.html), 2 × €5,20 | €10,40 |
+| Ιμάντες GT2, [188 mm](https://grobotronics.com/timing-belt-gt2-188mm.html) (απόκλιση) + [180 mm](https://grobotronics.com/timing-belt-gt2-180mm.html) (RA), 2 × €1,40 | €2,80 |
+| [Πλάκα V-slot gantry 20 mm](https://grobotronics.com/v-slot-gantry-plate-20mmoem.html) (RA) | €3,60 |
+| Βίδες και παξιμάδια | €0,48 |
+| **Μηχανικά, και οι δύο άξονες** (απόκλιση €25,40, RA €29,48) | **≈ €55** |
 | [Arduino UNO R4 WiFi](https://grobotronics.com/arduino-uno-r4-wifi.html) | €32,80 |
 | [Arduino CNC Shield V3](https://grobotronics.com/arduino-cnc-shield-v3.html) | €3,60 |
 | [Οδηγοί TMC2209](https://www.skroutz.gr/s/61336081/47217-tmc2209-v1-2-uart-stepper-motor-driver.html), 2 × €6,90 | €13,80 |

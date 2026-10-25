@@ -247,13 +247,15 @@ One caveat: the 140 teeth on the worm wheel was my assumption at this point, not
 
 I bought almost all the parts from [Grobotronics](https://grobotronics.com/), an electronics shop in Greece. The part links in this post go to their product pages (the TMC2209 drivers link to a price comparison page on Skroutz). None of them are affiliate links.
 
-The mechanics are the NEMA 17 motor, bracket, 20T and 60T pulleys and a belt on each axis, plus the V-slot plate and the extra belts on the RA side; every one is linked in the sections above.
-
 | | Cost |
 |---|---|
-| Mechanics, declination axis (motor, bracket, two pulleys, belt) | €25.40 |
-| Mechanics, right ascension axis (same, plus the V-slot plate and the extra belts) | €29.48 |
-| **Mechanics, both axes** | **≈ €55** |
+| [NEMA 17 stepper, 0.9° (42BYGHM809)](https://grobotronics.com/42byghm809-4.8kg.cm-400-steps-rev.html), 2 × €16.90 | €33.80 |
+| [NEMA 17 motor mount](https://grobotronics.com/stepper-motor-mount-nema-17.html), 2 × €1.90 | €3.80 |
+| GT2 pulleys, [20T](https://grobotronics.com/aluminum-gt2-timing-pulley-20-tooth.html) + [60T](https://grobotronics.com/aluminum-gt2-timing-pulley-60t.html), 2 × €5.20 | €10.40 |
+| GT2 belts, [188 mm](https://grobotronics.com/timing-belt-gt2-188mm.html) (declination) + [180 mm](https://grobotronics.com/timing-belt-gt2-180mm.html) (RA), 2 × €1.40 | €2.80 |
+| [V-slot gantry plate 20 mm](https://grobotronics.com/v-slot-gantry-plate-20mmoem.html) (RA) | €3.60 |
+| Screws and nuts | €0.48 |
+| **Mechanics, both axes** (declination €25.40, RA €29.48) | **≈ €55** |
 | [Arduino UNO R4 WiFi](https://grobotronics.com/arduino-uno-r4-wifi.html) | €32.80 |
 | [Arduino CNC Shield V3](https://grobotronics.com/arduino-cnc-shield-v3.html) | €3.60 |
 | [TMC2209 drivers](https://www.skroutz.gr/s/61336081/47217-tmc2209-v1-2-uart-stepper-motor-driver.html), 2 × €6.90 | €13.80 |
