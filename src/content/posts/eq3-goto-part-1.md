@@ -127,8 +127,6 @@ Here's how it goes together. The bracket's base screws flat against the side of 
 
 *First fit, December 2025: the 20-tooth pulley on the motor, the 60-tooth pulley on the axis, and the 188 mm belt between them.*
 
-I bought almost all the parts from [Grobotronics](https://grobotronics.com/), an electronics shop in Greece. The part links in this post go to their product pages (the TMC2209 drivers link to a price comparison page on Skroutz). None of them are affiliate links.
-
 ## 2. First electronics: making the motor move
 
 A stepper motor needs a **driver** between it and whatever sends the commands. My research pointed to the **TMC2209** as the best choice (quiet and smooth), but I couldn't find one in stock in Greece. So I bought what was available: an **A4988** and a **DRV8825**. Along with them I ordered a breadboard, a multimeter, a capacitor, and a 24 V power supply with a barrel jack.
@@ -247,10 +245,14 @@ One caveat: the 140 teeth on the worm wheel was my assumption at this point, not
 
 ## 6. What it cost
 
+I bought almost all the parts from [Grobotronics](https://grobotronics.com/), an electronics shop in Greece. The part links in this post go to their product pages (the TMC2209 drivers link to a price comparison page on Skroutz). None of them are affiliate links.
+
+The mechanics are the NEMA 17 motor, bracket, 20T and 60T pulleys and a belt on each axis, plus the V-slot plate and the extra belts on the RA side; every one is linked in the sections above.
+
 | | Cost |
 |---|---|
-| Mechanics, declination axis | €25.40 |
-| Mechanics, right ascension axis | €29.48 |
+| Mechanics, declination axis (motor, bracket, two pulleys, belt) | €25.40 |
+| Mechanics, right ascension axis (same, plus the V-slot plate and the extra belts) | €29.48 |
 | **Mechanics, both axes** | **≈ €55** |
 | [Arduino UNO R4 WiFi](https://grobotronics.com/arduino-uno-r4-wifi.html) | €32.80 |
 | [Arduino CNC Shield V3](https://grobotronics.com/arduino-cnc-shield-v3.html) | €3.60 |
