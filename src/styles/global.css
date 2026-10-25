@@ -173,6 +173,50 @@ h1, h2, h3 { font-family: var(--display); font-weight: 600; font-optical-sizing:
 .hero h1 { max-width: 18ch; font-size: clamp(2.3rem, 5.4vw, 3.7rem); line-height: 1.05; margin: 8px 0 0; text-shadow: 0 1px 0 rgba(255, 240, 215, .35); }
 .hero p.lead { max-width: 50ch; color: var(--muted); font-size: 1.12rem; margin: 22px 0 26px; }
 
+/* ---------- Isometric sketch of one axis drive (Part 1) ---------- */
+.prose figure.drive-3d { margin: 1.6em 0; }
+.drive-3d svg { display: block; width: 100%; max-width: 600px; height: auto; margin: 0 auto; }
+.drive-3d .d-body { fill: #efe2c8; stroke: var(--text); stroke-width: 1.6; stroke-linejoin: round; }
+.drive-3d .d-top { fill: #f6ecd8; }
+.drive-3d .d-side { fill: #dccaa8; }
+.drive-3d .d-hatch, .drive-3d .d-leader { fill: none; stroke: var(--text); stroke-width: 1; opacity: .45; }
+.drive-3d .d-shaft { fill: none; stroke: var(--text); stroke-width: 7; stroke-linecap: round; }
+.drive-3d .d-line { fill: none; stroke: var(--text); stroke-width: 1.4; }
+.drive-3d .d-screw { fill: var(--text); }
+.drive-3d .d-hole { fill: var(--text); opacity: .8; }
+.drive-3d .d-pulley { fill: #f1b25e; stroke: var(--text); stroke-width: 1.6; }
+.drive-3d .d-back { fill: #c9893a; }
+.drive-3d .d-hub { fill: var(--paper); stroke: var(--text); stroke-width: 1.2; }
+.drive-3d .d-belt { fill: none; stroke: var(--text); stroke-width: 4; stroke-linejoin: round; }
+.drive-3d .d-arrow { fill: none; stroke: var(--accent); stroke-width: 1.8; }
+.drive-3d .d-headfill { fill: var(--accent); }
+.drive-3d .d-text { font-family: var(--hand); font-size: 19px; fill: var(--text); }
+.drive-3d .d-ratio { font-family: var(--hand); font-size: 22px; font-weight: 700; fill: var(--accent); }
+html[lang='el'] .drive-3d .d-text { font-size: 15px; }
+/* Phones: the drawing shrinks to about half size, so words give way to numbered markers and a legend below. */
+.drive-3d .d-num, .drive-3d .drive-legend { display: none; }
+.drive-3d .d-num circle { fill: var(--accent); }
+.drive-3d .d-num text { font-family: var(--serif); font-size: 22px; font-weight: 600; fill: #fffaf0; }
+.drive-legend { margin: 10px 0 0; padding-left: 1.4em; font-size: .92rem; color: var(--muted); columns: 2; column-gap: 18px; }
+.drive-legend li { padding: 1px 0; }
+.drive-legend li::marker { color: var(--accent); font-weight: 600; }
+.drive-3d .d-wheel { fill: #e3d2b0; }
+.drive-3d .d-worm { fill: none; stroke: #8f877c; stroke-width: 16; stroke-linecap: round; }
+.drive-3d .d-thread { fill: none; stroke: var(--text); stroke-width: 1.6; }
+.drive-3d .d-plate { fill: #4a3b30; stroke: var(--text); stroke-width: 1.3; stroke-linejoin: round; }
+.drive-3d .d-plate.d-top { fill: #6b584a; }
+.drive-3d .d-plate.d-side { fill: #3a2d24; }
+.drive-3d .d-guide { fill: none; stroke: var(--accent); stroke-width: 1.2; stroke-dasharray: 4 4; }
+.drive-3d .d-screwshaft { fill: none; stroke: #8a8178; stroke-width: 3.5; stroke-linecap: round; }
+.drive-3d .d-screwhead { fill: #b8b0a4; stroke: var(--text); stroke-width: 1; }
+.drive-3d .d-thin { stroke-width: 4; }
+@media (max-width: 640px) {
+  .drive-3d .d-text { display: none; }
+  .drive-3d .d-num { display: inline; }
+  .drive-3d .drive-legend { display: block; }
+  .drive-3d .d-ratio { font-size: 30px; }
+}
+
 /* ---------- A handwritten note on graph paper (used in posts) ---------- */
 .note-figure { margin: 2.2em 0; }
 /* Playpen (Greek) runs wider than Caveat, so the Greek note writes a little smaller. */
